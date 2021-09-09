@@ -1,15 +1,21 @@
 import React from "react";
-import Typography from "@material-ui/core/Typography";
-import Container from "@material-ui/core/Container";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme: Theme) => ({
+  "@global": {
+    ul: {
+      margin: 0,
+      padding: 0,
+      listStyle: "none",
+    },
+  },
   root: {
     backgroundColor: theme.palette.success.light,
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    minHeight: "100vh",
   },
 }));
 
@@ -17,9 +23,8 @@ export default function SimpleContainer() {
   const classes = useStyles();
   return (
     <React.Fragment>
-      <Container maxWidth="lg" className={classes.root}>
-        <Typography variant="h2">Hello Crzy World!</Typography>
-      </Container>
+      <Header />
+      <Footer />
     </React.Fragment>
   );
 }
