@@ -2,71 +2,93 @@ import React from "react";
 import Image from "next/image";
 import NextLink from "next/link";
 import clsx from "clsx";
-import { makeStyles, Theme } from "@material-ui/core/styles";
+// Mui-components
+import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
 import IconButton from "@material-ui/core/IconButton";
-
+import Hidden from "@material-ui/core/Hidden";
+// Mui-icons
 import InstagramIcon from "@material-ui/icons/Instagram";
 import FaceBookIcon from "@material-ui/icons/Facebook";
 import LinkedInIcon from "@material-ui/icons/LinkedIn";
 import GithubIcon from "@material-ui/icons/GitHub";
 
-const useStyles = makeStyles((theme: Theme) => ({
-  footer: {
-    backgroundColor: theme.palette.primary.light,
-    borderTop: `1px solid ${theme.palette.divider}`,
-    marginTop: theme.spacing(8),
-    paddingTop: theme.spacing(3),
-  },
-  greyText: {
-    color: theme.palette.grey[700],
-  },
-  footerTitle: {
-    fontWeight: 400,
-    fontSize: "1.4rem",
-    marginBottom: theme.spacing(2),
-  },
-  footerLink: {
-    fontWeight: 400,
-  },
-  footerContainer: {
-    [theme.breakpoints.up("sm")]: {
-      transform: "translateX(-24px)",
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    footer: {
+      backgroundColor: theme.palette.primary.light,
+      borderTop: `1px solid ${theme.palette.divider}`,
+      marginTop: theme.spacing(8),
+      paddingTop: theme.spacing(3),
     },
-    justifyContent: "space-evenly",
-  },
-  divider: {
-    height: "6px",
-    width: "98%",
-    margin: "auto",
-    borderRadius: "6px",
-    backgroundColor: theme.palette.primary.dark,
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(2),
-    [theme.breakpoints.up("sm")]: {
-      transform: "translateX(24px)",
+    greyText: {
+      color: theme.palette.grey[700],
     },
-  },
-  listItem: {
-    marginTop: theme.spacing(1),
-  },
-  socialLabel: {
-    fontWeight: 400,
-    fontSize: "1.125rem",
-    marginLeft: "4px",
-    marginBottom: "8px",
-  },
-  copyrights: {
-    marginTop: theme.spacing(5),
-    padding: theme.spacing(1),
-    backgroundColor: theme.palette.primary.dark,
-    color: theme.palette.grey[300],
-  },
-}));
+    logo: {
+      [theme.breakpoints.up("sm")]: {
+        transform: "translateX(-28px)",
+      },
+    },
+    footerTitle: {
+      fontWeight: 400,
+      fontSize: "1.4rem",
+      marginBottom: theme.spacing(2),
+    },
+    footerLink: {
+      fontWeight: 400,
+    },
+    footerTopContainer: {
+      padding: theme.spacing(2),
+      justifyContent: "center",
+      [theme.breakpoints.up("sm")]: {
+        justifyContent: "space-between",
+        padding: theme.spacing(1, 5),
+      },
+    },
+    footerBottomContainer: {
+      padding: theme.spacing(2),
+      [theme.breakpoints.up("sm")]: {
+        padding: theme.spacing(1, 5),
+      },
+    },
+    divider: {
+      height: "6px",
+      width: "98%",
+      margin: "auto",
+      borderRadius: "6px",
+      backgroundColor: theme.palette.primary.dark,
+      marginTop: theme.spacing(1),
+      marginBottom: theme.spacing(2),
+    },
+    listItem: {
+      marginTop: theme.spacing(1),
+    },
+    socialIconContainer: {
+      justifyContent: "space-between",
+      alignItems: "center",
+      [theme.breakpoints.down("sm")]: {
+        maxWidth: 260,
+        margin: "auto",
+      },
+    },
+    socialLabel: {
+      fontWeight: 400,
+      fontSize: "1.125rem",
+      marginLeft: "4px",
+      marginBottom: "8px",
+    },
+    copyrights: {
+      marginTop: theme.spacing(5),
+      padding: theme.spacing(1),
+      backgroundColor: theme.palette.primary.dark,
+      color: theme.palette.grey[300],
+    },
+  })
+);
 
 interface FooterLinks {
   title: string;
@@ -84,9 +106,7 @@ export default function Footer() {
 
   const SocialButton: React.FC<SocialButtonProps> = ({ icon, href }) => (
     <NextLink href={href} passHref>
-      <IconButton size="small" edge="end">
-        {icon}
-      </IconButton>
+      <IconButton edge="end">{icon}</IconButton>
     </NextLink>
   );
 
@@ -97,10 +117,16 @@ export default function Footer() {
       component="footer"
       className={classes.footer}
     >
-      <Container maxWidth="md">
-        <Grid container justifyContent="space-between">
+      <Container maxWidth="lg">
+        <Grid container className={classes.footerTopContainer}>
           <Grid item>
-            <Image src="/logo.svg" height={80} width={160} layout="intrinsic" />
+            <Image
+              src="/logo.svg"
+              height={80}
+              width={160}
+              layout="intrinsic"
+              className={classes.logo}
+            />
           </Grid>
           <Grid
             item
@@ -112,18 +138,15 @@ export default function Footer() {
             justifyContent="center"
           >
             <Grid item>
-              <Typography
-                className={clsx(classes.socialLabel, classes.greyText)}
-              >
-                Connect with us
-              </Typography>
+              <Hidden smDown>
+                <Typography
+                  className={clsx(classes.socialLabel, classes.greyText)}
+                >
+                  Connect with us
+                </Typography>
+              </Hidden>
             </Grid>
-            <Grid
-              item
-              container
-              justifyContent="space-between"
-              alignItems="center"
-            >
+            <Grid item container className={classes.socialIconContainer}>
               {socials.map((link: SocialButtonProps) => (
                 <SocialButton {...link} />
               ))}
@@ -131,7 +154,7 @@ export default function Footer() {
           </Grid>
         </Grid>
         <div className={classes.divider} />
-        <Grid container spacing={4} className={classes.footerContainer}>
+        <Grid container spacing={4} className={classes.footerBottomContainer}>
           {footers.map((footer) => (
             <Grid item xs={6} sm={3} key={footer.title}>
               <Typography
