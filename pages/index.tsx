@@ -2,7 +2,6 @@ import React from "react";
 
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
-import Header from "./Components/Header";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import Body from "./Components/Body";
 
@@ -30,7 +29,7 @@ export default function SimpleContainer() {
   return (
     <React.Fragment>
       
-      <Header />
+      {/* <Header /> */}
       <Container maxWidth="lg" className={classes.root}>
         <Body />
         {/* <Typography variant="h2">Hello Crzy World!</Typography> */}
