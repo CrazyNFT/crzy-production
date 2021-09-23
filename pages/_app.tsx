@@ -4,6 +4,8 @@ import { AppProps } from "next/app";
 import { ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import theme from "@/styles/theme";
+import Layout from "@/components/Layout";
+import "@/styles/globals.css";
 
 export default function CrzyNFT(props: AppProps) {
   const { Component, pageProps } = props;
@@ -26,9 +28,10 @@ export default function CrzyNFT(props: AppProps) {
         />
       </Head>
       <ThemeProvider theme={theme}>
-        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
-        <Component {...pageProps} />
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
       </ThemeProvider>
     </React.Fragment>
   );
