@@ -62,9 +62,10 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: theme.spacing("auto", 2),
       textDecoration: "none",
       color: theme.palette.text.secondary,
+      fontWeight: 500,
       "&:hover": {
         color: theme.palette.primary.dark,
-        fontWeight: 500,
+        fontWeight: 600,
       },
     },
     search: {
