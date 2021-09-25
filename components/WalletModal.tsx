@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function SimpleModal() {
+export default function WalletModal() {
     const classes = useStyles();
     // Modal State
     const [open, setOpen] = React.useState(false);
