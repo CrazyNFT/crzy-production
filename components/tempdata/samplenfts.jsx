@@ -1,0 +1,66 @@
+export const nftData = [
+    {
+      imgurl: "https://th.bing.com/th/id/OIP.pK9cZHna4Z-XJb1pKr2EIwHaFk?pid=ImgDet&rs=1",
+      title: "Lizard",
+      owner:'CryptoKittie',
+      ownerIcon:'https://th.bing.com/th/id/OIP.jiOq7perhtiuSQLsK6C8bwHaHa?pid=ImgDet&rs=1',
+      cost:'0.02',
+      likes:'200',
+    },{
+      imgurl: "https://th.bing.com/th/id/OIP.pK9cZHna4Z-XJb1pKr2EIwHaFk?pid=ImgDet&rs=1",
+      title: "Lizard",
+      owner:'CryptoKittie',
+      ownerIcon:'https://th.bing.com/th/id/OIP.jiOq7perhtiuSQLsK6C8bwHaHa?pid=ImgDet&rs=1',
+      cost:'0.02',
+      likes:'200',
+    },{
+      imgurl: "https://th.bing.com/th/id/OIP.pK9cZHna4Z-XJb1pKr2EIwHaFk?pid=ImgDet&rs=1",
+      title: "Lizard",
+      owner:'CryptoKittie',
+      ownerIcon:'https://th.bing.com/th/id/OIP.jiOq7perhtiuSQLsK6C8bwHaHa?pid=ImgDet&rs=1',
+      cost:'0.02',
+      likes:'200',
+    },{
+      imgurl: "https://th.bing.com/th/id/OIP.pK9cZHna4Z-XJb1pKr2EIwHaFk?pid=ImgDet&rs=1",
+      title: "Lizard",
+      owner:'CryptoKittie',
+      ownerIcon:'https://th.bing.com/th/id/OIP.jiOq7perhtiuSQLsK6C8bwHaHa?pid=ImgDet&rs=1',
+      cost:'0.02',
+      likes:'200',
+    },{
+      imgurl: "https://th.bing.com/th/id/OIP.pK9cZHna4Z-XJb1pKr2EIwHaFk?pid=ImgDet&rs=1",
+      title: "Lizard",
+      owner:'CryptoKittie',
+      ownerIcon:'https://th.bing.com/th/id/OIP.jiOq7perhtiuSQLsK6C8bwHaHa?pid=ImgDet&rs=1',
+      cost:'0.02',
+      likes:'200',
+    },{
+      imgurl: "https://th.bing.com/th/id/OIP.pK9cZHna4Z-XJb1pKr2EIwHaFk?pid=ImgDet&rs=1",
+      title: "Lizard",
+      owner:'CryptoKittie',
+      ownerIcon:'https://th.bing.com/th/id/OIP.jiOq7perhtiuSQLsK6C8bwHaHa?pid=ImgDet&rs=1',
+      cost:'0.02',
+      likes:'200',
+    },{
+      imgurl: "https://th.bing.com/th/id/OIP.pK9cZHna4Z-XJb1pKr2EIwHaFk?pid=ImgDet&rs=1",
+      title: "Lizard",
+      owner:'CryptoKittie',
+      ownerIcon:'https://th.bing.com/th/id/OIP.jiOq7perhtiuSQLsK6C8bwHaHa?pid=ImgDet&rs=1',
+      cost:'0.02',
+      likes:'200',
+    },{
+      imgurl: "https://th.bing.com/th/id/OIP.pK9cZHna4Z-XJb1pKr2EIwHaFk?pid=ImgDet&rs=1",
+      title: "Lizard",
+      owner:'CryptoKittie',
+      ownerIcon:'https://th.bing.com/th/id/OIP.jiOq7perhtiuSQLsK6C8bwHaHa?pid=ImgDet&rs=1',
+      cost:'0.02',
+      likes:'200',
+    },{
+      imgurl: "https://th.bing.com/th/id/OIP.pK9cZHna4Z-XJb1pKr2EIwHaFk?pid=ImgDet&rs=1",
+      title: "Lizard",
+      owner:'CryptoKittie',
+      ownerIcon:'https://th.bing.com/th/id/OIP.jiOq7perhtiuSQLsK6C8bwHaHa?pid=ImgDet&rs=1',
+      cost:'0.02',
+      likes:'200',
+    }
+  ];

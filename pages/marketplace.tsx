@@ -14,6 +14,10 @@ import Select from "@/components/Select";
 import Pagination from "@/components/Pagination";
 import CardLayout from '@/components/CardLayout'
 
+// IMPORTING SAMPLE NFT CARDS DATA
+import {nftData} from '@/components/tempdata/samplenfts.jsx';
+
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     spaceBetween: {
@@ -34,6 +38,12 @@ const useStyles = makeStyles((theme: Theme) =>
       marginBottom: 2,
       color: theme.palette.primary.main,
     },
+    connectWalletButton:{
+      background: "rgb(0,192,182)",
+      background: "linear-gradient(90deg, rgba(0,192,182,1) 0%, rgba(0,80,80,1) 100%)",
+      padding:18,
+      flexGrow:1,
+    },
   })
 );
 
@@ -45,7 +55,7 @@ export default function MarketPlace(props: any) {
       <Toolbar className={classes.spaceBetween}>
         <Typography variant="body1">
           <b>Art | </b>
-          {"82 results"}
+          {nftData.length}
         </Typography>
         <div className={classes.select}>
           <Typography variant="body1" className={classes.selectlabel}>
@@ -61,11 +71,11 @@ export default function MarketPlace(props: any) {
       <Container>
         {/* INTEGRATE CARDS HERE */}
         <CardLayout />
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aliquam
+        {/* Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aliquam
         aspernatur aperiam, officiis error hic sequi ratione suscipit asperiores
         doloribus debitis magni voluptatibus at modi corrupti beatae quos rerum
         eaque. Temporibus natus dolores modi ratione saepe dignissimos pariatur
-        est ab animi.
+        est ab animi. */}
       </Container>
       <Toolbar className={classes.justifyCenter}>
         <Pagination />

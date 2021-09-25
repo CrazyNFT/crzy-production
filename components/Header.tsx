@@ -10,10 +10,13 @@ import Divider from "@material-ui/core/Divider";
 import Drawer from "@material-ui/core/Drawer";
 import Hidden from "@material-ui/core/Hidden";
 import IconButton from "@material-ui/core/IconButton";
+import Button from '@material-ui/core/Button';
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
+import WalletModal from "@/components/WalletModal"
+
 import {
   createStyles,
   alpha,
@@ -110,7 +113,8 @@ const useStyles = makeStyles((theme: Theme) =>
         },
       },
     },
-  })
+  },
+  )
 );
 
 interface PageLinkProps {
@@ -262,6 +266,9 @@ export default function Header() {
 
           {/* Drawer */}
           <MobileDrawer toggle={handleDrawerToggle} />
+
+          {/* Connect Wallet */}
+          <WalletModal />
         </Toolbar>
       </AppBar>
     </div>
