@@ -12,6 +12,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Container from "@material-ui/core/Container";
 import Select from "@/components/Select";
 import Pagination from "@/components/Pagination";
+import CardLayout from '@/components/CardLayout'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -59,6 +60,7 @@ export default function MarketPlace(props: any) {
       </Toolbar>
       <Container>
         {/* INTEGRATE CARDS HERE */}
+        <CardLayout />
         Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aliquam
         aspernatur aperiam, officiis error hic sequi ratione suscipit asperiores
         doloribus debitis magni voluptatibus at modi corrupti beatae quos rerum

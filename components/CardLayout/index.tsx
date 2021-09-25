@@ -31,40 +31,39 @@ export default function Body() {
   const bull = <span className={classes.bullet}>•</span>;
   const nftData = [
     {
-      imgurl: "./img.png",
+      imgurl: "https://th.bing.com/th/id/OIP.pK9cZHna4Z-XJb1pKr2EIwHaFk?pid=ImgDet&rs=1",
       title: "Lizard",
-      desc: "Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica",
-    },
-    {
-      imgurl: "./img.png",
+      owner:'CryptoKittie',
+      ownerIcon:'https://th.bing.com/th/id/OIP.jiOq7perhtiuSQLsK6C8bwHaHa?pid=ImgDet&rs=1',
+      cost:'0.02',
+      likes:'200',
+    },{
+      imgurl: "https://th.bing.com/th/id/OIP.pK9cZHna4Z-XJb1pKr2EIwHaFk?pid=ImgDet&rs=1",
       title: "Lizard",
-      desc: "Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica",
-    },
-    {
-      imgurl: "./img.png",
+      owner:'CryptoKittie',
+      ownerIcon:'https://th.bing.com/th/id/OIP.jiOq7perhtiuSQLsK6C8bwHaHa?pid=ImgDet&rs=1',
+      cost:'0.02',
+      likes:'200',
+    },{
+      imgurl: "https://th.bing.com/th/id/OIP.pK9cZHna4Z-XJb1pKr2EIwHaFk?pid=ImgDet&rs=1",
       title: "Lizard",
-      desc: "Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica",
-    },
-    {
-      imgurl: "./img.png",
+      owner:'CryptoKittie',
+      ownerIcon:'https://th.bing.com/th/id/OIP.jiOq7perhtiuSQLsK6C8bwHaHa?pid=ImgDet&rs=1',
+      cost:'0.02',
+      likes:'200',
+    },{
+      imgurl: "https://th.bing.com/th/id/OIP.pK9cZHna4Z-XJb1pKr2EIwHaFk?pid=ImgDet&rs=1",
       title: "Lizard",
-      desc: "Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica",
-    },
-    {
-      imgurl: "./img.png",
-      title: "Lizard",
-      desc: "Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica",
-    },
-    {
-      imgurl: "./img.png",
-      title: "Lizard",
-      desc: "Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica",
-    },
+      owner:'CryptoKittie',
+      ownerIcon:'https://th.bing.com/th/id/OIP.jiOq7perhtiuSQLsK6C8bwHaHa?pid=ImgDet&rs=1',
+      cost:'0.02',
+      likes:'200',
+    }
   ];
 
   return (
     <Grid container spacing={2}>
-      {nftData.map((i, data) => {
+      {nftData.map((data,i) => {
         return (
           <Grid item xs={6} sm={6} md={4} lg={3}>
             <ImgMediaCard nft={data} key={i}></ImgMediaCard>
