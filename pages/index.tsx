@@ -24,6 +24,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    minHeight: "100vh",
+    flexGrow:1,
   },
   flexCol: {
     display: "flex",
