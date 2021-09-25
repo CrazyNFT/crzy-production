@@ -7,8 +7,10 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
+import Avatar from '@material-ui/core/Avatar';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme)=>({
   root: {
     maxWidth: 345,
   },
@@ -19,28 +21,73 @@ const useStyles = makeStyles({
     backgroundColor: "#5E5E5E",
     color: "white",
   },
-});
+  avatar: {
+    width:theme.spacing(3),
+    height:theme.spacing(3),
+  },
+  nftInfo:{
+    display:'flex',
+    alignItems:'center',
+    flexDirection:'row',
+    flexWrap:'wrap',
+    width:'100%',
+    justifyContent:'space-between',
+  }
+}))
 
-export default function ImgMediaCard(props) {
+export default function ImgMediaCard({nft}) {
   const classes = useStyles();
-  console.log(props);
+  console.log(nft);
   return (
     <Card className={classes.root}>
       <CardActionArea>
-        <CardMedia className={classes.img} />
+        <CardMedia image={nft.imgurl} className={classes.img} />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="h2"></Typography>
-          <Typography
+          <Typography gutterBottom variant="h5" component="h2">
+            {/* {props.nft.title} */}
+            <strong>
+            &nbsp; {nft.title}
+            </strong>
+            </Typography>
+            
+            <div style={{
+    display: 'flex',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+}}>&nbsp;&nbsp;
+    <Avatar className={classes.avatar} alt="Remy Sharp" src={nft.ownerIcon} />
+    &nbsp;
+    <Typography
             variant="body2"
             color="textSecondary"
-            component="p"
-          ></Typography>
+            component="div"
+          >
+            {nft.owner}
+          </Typography>
+</div>  
+          
         </CardContent>
       </CardActionArea>
 
       <CardActions className={classes.action}>
-        <Button size="small">Share</Button>
-        <Button size="small">Learn More</Button>
+      &nbsp;&nbsp;&emsp;
+          <div className={classes.nftInfo}>
+      {/* <div> */}
+          <Typography
+                variant="body2"
+                color="white"
+                component="div"
+              >
+                {nft.cost}{" ETH"}
+              </Typography>
+      {/* </div> */}
+      &emsp;
+          <div style={{display:'flex',alignItems:'center'}}>
+          <FavoriteIcon />
+          {nft.likes}
+          </div>
+          </div>
+          &emsp;&nbsp;
       </CardActions>
     </Card>
   );
