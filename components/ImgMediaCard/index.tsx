@@ -10,7 +10,7 @@ import Typography from "@material-ui/core/Typography";
 import Avatar from '@material-ui/core/Avatar';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 
-const useStyles = makeStyles((theme)=>({
+const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
   },
@@ -22,20 +22,20 @@ const useStyles = makeStyles((theme)=>({
     color: "white",
   },
   avatar: {
-    width:theme.spacing(3),
-    height:theme.spacing(3),
+    width: theme.spacing(3),
+    height: theme.spacing(3),
   },
-  nftInfo:{
-    display:'flex',
-    alignItems:'center',
-    flexDirection:'row',
-    flexWrap:'wrap',
-    width:'100%',
-    justifyContent:'space-between',
+  nftInfo: {
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    width: '100%',
+    justifyContent: 'space-between',
   }
 }))
 
-export default function ImgMediaCard({nft}) {
+export default function ImgMediaCard({ nft }) {
   const classes = useStyles();
   console.log(nft);
   return (
@@ -46,48 +46,48 @@ export default function ImgMediaCard({nft}) {
           <Typography gutterBottom variant="h5" component="h2">
             {/* {props.nft.title} */}
             <strong>
-            &nbsp; {nft.title}
+              &nbsp; {nft.title}
             </strong>
-            </Typography>
-            
-            <div style={{
-    display: 'flex',
-    alignItems: 'center',
-    flexWrap: 'wrap',
-}}>&nbsp;&nbsp;
-    <Avatar className={classes.avatar} alt="Remy Sharp" src={nft.ownerIcon} />
-    &nbsp;
-    <Typography
-            variant="body2"
-            color="textSecondary"
-            component="div"
-          >
-            {nft.owner}
           </Typography>
-</div>  
-          
+
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            flexWrap: 'wrap',
+          }}>&nbsp;&nbsp;
+            <Avatar className={classes.avatar} alt="Remy Sharp" src={nft.ownerIcon} />
+            &nbsp;
+            <Typography
+              variant="body2"
+              color="textSecondary"
+              component="div"
+            >
+              {nft.owner}
+            </Typography>
+          </div>
+
         </CardContent>
       </CardActionArea>
 
       <CardActions className={classes.action}>
-      &nbsp;&nbsp;&emsp;
-          <div className={classes.nftInfo}>
-      {/* <div> */}
+        &nbsp;&nbsp;&emsp;
+        <div className={classes.nftInfo}>
+          {/* <div> */}
           <Typography
-                variant="body2"
-                color="white"
-                component="div"
-              >
-                {nft.cost}{" ETH"}
-              </Typography>
-      {/* </div> */}
-      &emsp;
-          <div style={{display:'flex',alignItems:'center'}}>
-          <FavoriteIcon />
-          {nft.likes}
+            variant="body2"
+            color="white"
+            component="div"
+          >
+            {nft.cost}{" ETH"}
+          </Typography>
+          {/* </div> */}
+          &emsp;
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <FavoriteIcon />
+            {nft.likes}
           </div>
-          </div>
-          &emsp;&nbsp;
+        </div>
+        &emsp;&nbsp;
       </CardActions>
     </Card>
   );
