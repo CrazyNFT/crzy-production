@@ -11,7 +11,7 @@ export default function Layout({ children }: LayoutProps) {
   return (
     <Container maxWidth={false} disableGutters>
       <Header />
-      <Container maxWidth={false}>{children}</Container>
+      {children}
       <Footer />
     </Container>
   );
