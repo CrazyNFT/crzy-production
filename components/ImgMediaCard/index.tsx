@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     position: 'fixed',
     backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
+    // border: '2px solid #000',
     boxShadow: theme.shadows[5],
     width: "96%",
     marginLeft: "2%",
@@ -71,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
     }
   },
   buynowbtn: {
-    background: "rgb(0,192,182)",
+    // background: "rgb(0,192,182)",
     background: "linear-gradient(90deg, rgba(0,192,182,1) 0%, rgba(0,80,80,1) 100%)",
     padding: theme.spacing(1.5),
     margin: theme.spacing(0.5),
@@ -203,7 +203,7 @@ export default function ImgMediaCard({ nft }) {
             {/* <div> */}
             <Typography
               variant="body2"
-              color="white"
+              color="primary"
               component="div"
             >
               {nft.cost}{" ETH"}

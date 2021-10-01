@@ -34,7 +34,7 @@ export default function Body() {
     <Grid container spacing={2}>
       {nftData.map((data,i) => {
         return (
-          <Grid item xs={6} sm={6} md={4} lg={3}>
+          <Grid key={i} item xs={6} sm={6} md={4} lg={3}>
             <ImgMediaCard nft={data} key={i}></ImgMediaCard>
           </Grid>
         );
