@@ -146,8 +146,8 @@ export default function Footer() {
               </Hidden>
             </Grid>
             <Grid item container className={classes.socialIconContainer}>
-              {socials.map((link: SocialButtonProps) => (
-                <SocialButton {...link} />
+              {socials.map((link: SocialButtonProps,index) => (
+                <SocialButton key={index} {...link} />
               ))}
             </Grid>
           </Grid>

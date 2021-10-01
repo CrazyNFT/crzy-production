@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme: Theme) =>
       color: theme.palette.primary.main,
     },
     connectWalletButton:{
-      background: "rgb(0,192,182)",
+      // background: "rgb(0,192,182)",
       background: "linear-gradient(90deg, rgba(0,192,182,1) 0%, rgba(0,80,80,1) 100%)",
       padding:18,
       flexGrow:1,
