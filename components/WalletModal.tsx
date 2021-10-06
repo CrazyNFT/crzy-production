@@ -7,7 +7,8 @@ import Image from "next/image";
 
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
-
+import {useEffect, useState} from "react";
+import Web3WalletModal from './Web3WalletModal';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -54,7 +55,24 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+
+
+
 export default function WalletModal() {
+
+    // Web3 Wallet Function Starts
+    const {web3Loading, getweb3} = Web3WalletModal();
+    const [myWeb3, setMyWeb3] = useState ();
+    async function connectWeb3Wallet () {
+    await getweb3 (). then ((response) => {
+        setMyWeb3 (response);
+        response.eth.getAccounts (). then ((result) => (
+        console.log (result)
+        ));
+        });
+    };
+    // Web3 Wallet Function Ends
+
     const classes = useStyles();
     // Modal State
     const [open, setOpen] = React.useState(false);
@@ -81,6 +99,7 @@ export default function WalletModal() {
                     <TextField className={classes.modalInput} id="outlined-basic" label="Email" variant="outlined" />
                     <TextField className={classes.modalInput} id="outlined-basic" label="password" variant="outlined" />
                     <Button onClick={handleViewToggle} >{"View Less"}<ExpandLess /></Button>
+                    
                 </>
             ) : (
                 // Front Side Modal Content
@@ -99,6 +118,11 @@ export default function WalletModal() {
                     <TextField className={classes.modalInput} id="outlined-basic" label="username" variant="outlined" />
                     <TextField className={classes.modalInput} id="outlined-basic" label="password" variant="outlined" />
                     <Button onClick={handleViewToggle} >{"View More"}<ExpandMore /></Button>
+                    {
+                    web3Loading
+                    ? <Button disabled >{"Loading..."}</Button>
+                    : <Button onClick={connectWeb3Wallet} >{"Connect a Decentralized Wallet"}</Button>
+                    }
                 </>
             )
 
