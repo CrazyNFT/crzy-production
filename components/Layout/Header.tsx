@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 // Mui-components
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -20,6 +21,8 @@ import {
   Theme,
   makeStyles,
 } from "@material-ui/core/styles";
+// Custom
+import Select from "@/components/Select";
 // Mui-icons
 import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
@@ -29,6 +32,13 @@ import MovieFilterRoundedIcon from "@material-ui/icons/MovieFilterRounded";
 import ContactSupportRoundedIcon from "@material-ui/icons/ContactSupportRounded";
 
 const drawerWidth = 240;
+
+const ConnectButton = dynamic(
+  () => import("@/components/Wallet/ConnectButton"),
+  {
+    ssr: false,
+  }
+);
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -109,6 +119,13 @@ const useStyles = makeStyles((theme: Theme) =>
         },
       },
     },
+    selectStyles: {
+      backgroundColor: alpha(theme.palette.primary.main, 0.1),
+      padding: "6px 16px 6px 12px",
+      minHeight: 35,
+      borderRadius: 4,
+      marginTop: 1,
+    },
   })
 );
 
@@ -125,6 +142,7 @@ interface DrawerProps {
 export default function Header() {
   const classes = useStyles();
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [chain, setChain] = React.useState("ETH");
 
   // Link data
   const PageLinks: PageLinkProps[] = [
@@ -250,10 +268,32 @@ export default function Header() {
               ))}
             </div>
           </Hidden>
-          <SearchBar />
+          <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+            <SearchBar />
+            <Select
+              options={chainOptions}
+              selectVal={chain}
+              setSelectVal={setChain}
+              customClass={classes.selectStyles}
+            />
+            <ConnectButton />
+          </div>
           <MobileDrawer toggle={handleDrawerToggle} />
         </Toolbar>
       </AppBar>
     </div>
   );
 }
+
+const chainOptions = [
+  {
+    label: "BSC",
+    id: "chain-bsc",
+    value: "BSC",
+  },
+  {
+    label: "ETH",
+    id: "chain-eth",
+    value: "ETH",
+  },
+];

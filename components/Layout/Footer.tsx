@@ -19,6 +19,13 @@ import GithubIcon from "@material-ui/icons/GitHub";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    "@global": {
+      ul: {
+        margin: 0,
+        padding: 0,
+        listStyle: "none",
+      },
+    },
     footer: {
       backgroundColor: theme.palette.primary.light,
       borderTop: `1px solid ${theme.palette.divider}`,
@@ -146,7 +153,7 @@ export default function Footer() {
               </Hidden>
             </Grid>
             <Grid item container className={classes.socialIconContainer}>
-              {socials.map((link: SocialButtonProps,index) => (
+              {socials.map((link: SocialButtonProps, index) => (
                 <SocialButton key={index} {...link} />
               ))}
             </Grid>

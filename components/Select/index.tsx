@@ -50,6 +50,8 @@ interface CustomizedSelectProps {
   selectVal: string;
   setSelectVal: React.Dispatch<React.SetStateAction<string>>;
   options: SelectOption[];
+  noneLabel?: string;
+  customClass?: string;
 }
 
 export default function CustomizedSelect({
@@ -57,6 +59,8 @@ export default function CustomizedSelect({
   selectVal,
   setSelectVal,
   options,
+  noneLabel,
+  customClass,
 }: CustomizedSelectProps) {
   const classes = useStyles();
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
@@ -74,8 +78,9 @@ export default function CustomizedSelect({
           value={selectVal}
           onChange={handleChange}
           input={<CustomInput />}
+          className={customClass}
         >
-          <MenuItem value="none">Select</MenuItem>
+          {!!noneLabel && <MenuItem value="none">{noneLabel}</MenuItem>}
           {options.map((option) => (
             <MenuItem value={option.value} key={option.label}>
               {option.label}
