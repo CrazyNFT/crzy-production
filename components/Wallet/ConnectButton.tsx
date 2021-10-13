@@ -1,9 +1,10 @@
-import { MouseEvent } from "react";
+import { MouseEvent, useState } from "react";
 import Web3 from "web3";
 import Web3Modal from "web3modal";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import Button from "@material-ui/core/Button";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
+import { profile } from '../../services/profile'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -48,25 +49,61 @@ const web3Modal = new Web3Modal({
 export default function WalletModal() {
   const classes = useStyles();
 
+  const [userVerified, setUserVerified] = useState(false);
+  const [walletConnected, setWalletConnected] = useState(false);
+
   const showWeb3Modal = async (e: MouseEvent<HTMLButtonElement>) => {
     try {
       const provider = await web3Modal.connect();
       const WebThree = new Web3(provider);
-      console.log(WebThree);
+      const accounts = await WebThree.eth.getAccounts();
+
+      if (accounts[0]) {
+        setWalletConnected(true)
+        let data = await profile.init(accounts[0])
+        if (data.email && data.emailVerified) {
+          setUserVerified(true)
+          console.log('User Data ', data)
+        }
+      }
     } catch (error) {
       console.log(error);
     }
   };
 
+  const verifyUser = async () => {
+    try{
+      let res = await profile.gmail_login()
+      if(res) setUserVerified(true)
+    } catch(err){
+      alert('Profile Verification Error! '+err)
+    }
+  }
+
   return (
-    <Button
-      variant="contained"
-      color="primary"
-      className={classes.btnRoot}
-      onClick={showWeb3Modal}
-      size="small"
-    >
-      CONNECT TO WALLET
-    </Button>
+    <>
+      <Button
+        variant="contained"
+        color="primary"
+        className={classes.btnRoot}
+        onClick={showWeb3Modal}
+        size="small"
+      >
+        {walletConnected ? `WALLET CONNECTED ${userVerified ? '( VERIFIED )' : ''}` : 'CONNECT TO WALLET'}
+      </Button>
+      {
+        walletConnected && !userVerified?(
+          <Button
+          variant="contained"
+          color="primary"
+          className={classes.btnRoot}
+          onClick={verifyUser}
+          size="small"
+        >
+          VERIFY
+        </Button>
+        ): null
+      }
+    </>
   );
 }
