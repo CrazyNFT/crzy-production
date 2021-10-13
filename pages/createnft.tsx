@@ -183,7 +183,7 @@ export default function MarketPlace(props: any) {
         'voucher': result,
         }
         console.log(data);
-      //redeemNFT(result);
+      redeemNFT(result, data.price);
     })
 
   }
