@@ -13,14 +13,26 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 import Container from "@material-ui/core/Container";
-import LinearProgress from "@material-ui/core/LinearProgress";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import { Input } from "@material-ui/core";
+
+import LinearProgress from '@material-ui/core/LinearProgress';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import { Input } from '@material-ui/core';
+import { getVoucher, redeemNFT, uploadIPFS } from "@/components/LazyMint";
+
+
+const fetch = require("node-fetch");
+const ethers = require('ethers');
+const buffer = require('buffer');
+const web3 = require('web3');
+
+
 
 // IMPORTING SAMPLE NFT CARDS DATA
 import { nftData } from "@/components/tempdata/samplenfts.jsx";
 import { Button, FormControlLabel, Paper, TextField } from "@material-ui/core";
 import { type } from "os";
+import Web3 from "web3";
+import Web3Modal, { getProviderDescription } from "web3modal";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -108,6 +120,8 @@ const BorderLinearProgress = withStyles((theme) => ({
   },
 }))(LinearProgress);
 
+
+
 export default function MarketPlace(props: any) {
   const classes = useStyles();
 
@@ -134,8 +148,13 @@ export default function MarketPlace(props: any) {
   const handleFileUpload = (e) => {
     setSelectedFile(e.target.files[0]);
     setIsFilePicked(true);
-  };
-  const handleSubmission = () => {
+
+    
+  }
+
+  
+
+  const handleSubmission = async () => {
     // STATE VARIABLES TO ACCESS FORM DATA
     // {
     // type,
@@ -146,7 +165,29 @@ export default function MarketPlace(props: any) {
     // royalty,
     // selectedFile,
     // }
-  };
+
+    
+    let provider = new ethers.providers.Web3Provider(window.ethereum);
+    const url = await uploadIPFS(selectedFile);
+
+    let signer = provider.getSigner();
+    const data = {
+    'title':title,
+    'description':description,
+    'url':url,
+    'price': price,
+    'royalty': royalty,
+
+    }
+
+    getVoucher(1, url, parseInt(price), signer).then(function(result){
+      console.log(result);
+      redeemNFT(result);
+    })
+
+  }
+
+
 
   return (
     <Container>
@@ -223,9 +264,9 @@ export default function MarketPlace(props: any) {
         <Typography className={classes.formHeaders}>External link</Typography>
 
         <Typography className={classes.formParas}>
-          CrazyNFT will include a link to this URL on this item's detail page,
+          {`CrazyNFT will include a link to this URL on this item's detail page,
           so that users can click to learn more about it. You are welcome to
-          link to your own webpage with more details.
+          link to your own webpage with more details.`}
         </Typography>
         <TextField
           id="outlined-basic"
