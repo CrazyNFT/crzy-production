@@ -1,4 +1,4 @@
-export var contract_address = '0x9D8124F5658caB3C7787aa239F94A4CBd848Ff88';//"0x138fFdDd2efCa4992AE8bBB8C8d74Ced6Db2AF4F";
+export var contract_address = "0x9D8124F5658caB3C7787aa239F94A4CBd848Ff88";//"0x138fFdDd2efCa4992AE8bBB8C8d74Ced6Db2AF4F";
 export var chain_id = '111';//'80001';
 export var rpc_url = 'https://api.testnet.velas.com';
 export var contract_abi = [

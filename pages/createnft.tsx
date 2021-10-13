@@ -171,18 +171,19 @@ export default function MarketPlace(props: any) {
     const url = await uploadIPFS(selectedFile);
 
     let signer = provider.getSigner();
-    const data = {
-    'title':title,
-    'description':description,
-    'url':url,
-    'price': price,
-    'royalty': royalty,
-
-    }
+    
 
     getVoucher(1, url, parseInt(price), signer).then(function(result){
-      console.log(result);
-      redeemNFT(result);
+      const data = {
+        'title':title,
+        'description':description,
+        'url':url,
+        'price': price,
+        'royalty': royalty,
+        'voucher': result,
+        }
+        console.log(data);
+      //redeemNFT(result);
     })
 
   }

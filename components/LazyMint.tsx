@@ -4,7 +4,7 @@ import { create } from 'ipfs-http-client'
 import Web3 from "web3";
 const web3 = new Web3(rpc_url);
 
-const client = create('https://ipfs.infura.io:5001/api/v0')
+const client = create('https://ipfs.infura.io:5001/api/v0') 
 
 
 export async function getVoucher(tokenId, uri, minPrice = 0, signer) {
@@ -63,3 +63,5 @@ export async function redeemNFT(voucher){
   
 }
             
+
+
