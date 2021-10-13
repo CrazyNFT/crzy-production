@@ -1,9 +1,8 @@
 import { contract_address, chain_id, rpc_url, contract_abi } from "config";
 const buffer = require('buffer');
 import { create } from 'ipfs-http-client'
-import Web3 from "web3";                                                                             import { ethers } from "ethers";
-const web3 = new Web3(rpc_url);  
-                                                                            const provider = new ethers.providers.JsonRpcProvider(rpc_url);
+import Web3 from "web3";                                                                            
+const web3 = new Web3(rpc_url);                           
 const client = create('https://ipfs.infura.io:5001/api/v0') 
 
 
