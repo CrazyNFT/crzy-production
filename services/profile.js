@@ -1,3 +1,3 @@
-import Profile from './models/profile'
+import Profile from "./models/profile";
 
-export const profile = new Profile()
+export const profile = new Profile();

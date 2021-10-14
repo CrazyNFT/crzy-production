@@ -1,4 +1,5 @@
 import React from "react";
+import router from "next/router";
 import clsx from "clsx";
 import {
   createStyles,
@@ -24,11 +25,14 @@ import Avatar from "@material-ui/core/Avatar";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import { useSnackbar } from "notistack";
 // Icons
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import SeenIcon from "@material-ui/icons/VisibilityRounded";
 // Backend Functions
 import { redeemNFT } from "../LazyMint";
+// Firebase
+import { db } from "../../services/firefolder/setup";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -144,7 +148,7 @@ const DialogContent = withStyles((theme: Theme) => ({
 export default function ImgMediaCard({ nft }) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-
+  const { enqueueSnackbar } = useSnackbar();
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -153,9 +157,20 @@ export default function ImgMediaCard({ nft }) {
   };
 
   const handleBuy = async () => {
-    // console.log(nft);
     const res = await redeemNFT(nft.voucher);
-    console.log(res);
+    const { id: NftID, ...NftData } = nft;
+    // Delete sold NFT
+    const deleteRes = await db.collection("CrazyNFT").doc(NftID).delete();
+    // Add Sold NFt to SoldNFT collection
+    const addRes = await db.collection("SoldNFT").add(NftData);
+    if (!!addRes) {
+      enqueueSnackbar("Success! NFT Purchased", { variant: "success" });
+      setOpen(false);
+    } else {
+      enqueueSnackbar("Oop! Couldn't buy NFT at the moment", {
+        variant: "error",
+      });
+    }
   };
 
   return (

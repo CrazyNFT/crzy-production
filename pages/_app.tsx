@@ -2,6 +2,7 @@ import React from "react";
 import Head from "next/head";
 import { AppProps } from "next/app";
 import { ThemeProvider } from "@material-ui/core/styles";
+import { SnackbarProvider } from "notistack";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import theme from "@/styles/theme";
 import Layout from "@/components/Layout";
@@ -28,10 +29,12 @@ export default function CrzyNFT(props: AppProps) {
         />
       </Head>
       <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <SnackbarProvider>
+          <CssBaseline />
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </SnackbarProvider>
       </ThemeProvider>
     </React.Fragment>
   );

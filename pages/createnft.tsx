@@ -1,5 +1,4 @@
 import React from "react";
-import clsx from "clsx";
 import {
   makeStyles,
   createStyles,
@@ -10,28 +9,16 @@ import {
 import Typography from "@material-ui/core/Typography";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
-import FormControl from "@material-ui/core/FormControl";
-import FormLabel from "@material-ui/core/FormLabel";
 import Container from "@material-ui/core/Container";
-
 import LinearProgress from "@material-ui/core/LinearProgress";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import { Input } from "@material-ui/core";
-import { getVoucher, redeemNFT, uploadIPFS } from "@/components/LazyMint";
-
-const fetch = require("node-fetch");
-const ethers = require("ethers");
-const buffer = require("buffer");
-const web3 = require("web3");
-
-// IMPORTING SAMPLE NFT CARDS DATA
-import { nftData } from "@/components/tempdata/samplenfts.jsx";
+import { getVoucher, uploadIPFS } from "@/components/LazyMint";
 import { Button, FormControlLabel, Paper, TextField } from "@material-ui/core";
-import { type } from "os";
-import Web3 from "web3";
-import Web3Modal, { getProviderDescription } from "web3modal";
-
+import { v4 as uuidv4 } from "uuid";
 import NFT from "../services/models/nft";
+const uuidParse = require("uuid").parse;
+const ethers = require("ethers");
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -119,9 +106,20 @@ const BorderLinearProgress = withStyles((theme) => ({
   },
 }))(LinearProgress);
 
+let convertGuidToInt = (uuid: string) => {
+  // parse accountId into Uint8Array[16] variable
+  let parsedUuid = uuidParse(uuid);
+  console.log(`uuid ${uuid} parsed successfully`);
+  // convert to integer - see answers to https://stackoverflow.com/q/39346517/2860309
+  let buffer = Buffer.from(parsedUuid);
+  console.log(`parsed uuid converted to buffer`);
+  let result = buffer.readUInt32BE(0);
+  console.log(`buffer converted to integer ${result} successfully`);
+  return result;
+};
+
 export default function MarketPlace(props: any) {
   const classes = useStyles();
-
   const [selectedType, setSelectedType] = React.useState("single");
   const [title, setTitle] = React.useState("");
   const [description, setDescription] = React.useState("");
@@ -164,31 +162,33 @@ export default function MarketPlace(props: any) {
 
     let signer = provider.getSigner();
 
-    getVoucher(1, url, parseInt(price), signer).then(async function (result) {
-      const data = {
-        title: title,
-        description: description,
-        url: url,
-        price: price,
-        royalty: royalty,
-        voucher: result,
-      };
-      let currentDate = new Date();
-      data["createdOn"] = currentDate.toString();
+    getVoucher(convertGuidToInt(uuidv4()), url, parseInt(price), signer).then(
+      async function (result) {
+        const data = {
+          title: title,
+          description: description,
+          url: url,
+          price: price,
+          royalty: royalty,
+          voucher: result,
+        };
+        let currentDate = new Date();
+        data["createdOn"] = currentDate.toString();
 
-      try {
-        let nft = new NFT();
-        let res = await nft.createNFT(data);
-        if (res) {
-          console.log("NFT Data ", res);
-          alert("NFT Created!!");
+        try {
+          let nft = new NFT();
+          let res = await nft.createNFT(data);
+          if (res) {
+            console.log("NFT Data ", res);
+            alert("NFT Created!!");
+          }
+        } catch (err) {
+          alert("Error! " + err);
         }
-      } catch (err) {
-        alert("Error! " + err);
-      }
 
-      // redeemNFT(result, data.price);
-    });
+        // redeemNFT(result, data.price);
+      }
+    );
   };
 
   return (

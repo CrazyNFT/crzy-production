@@ -1,30 +1,27 @@
 import React, { useEffect, useState } from "react";
 import NftCard from "@/components/NftCard";
 import Grid from "@material-ui/core/Grid";
-
-import NFT from '../../services/models/nft'
+import NFT from "../../services/models/nft";
 
 export default function CardLayout() {
-
-  const [nftData, setNftData] = useState([])
+  const [nftData, setNftData] = useState([]);
 
   useEffect(() => {
     const getNFT = async () => {
       try {
-        let nft = new NFT()
-        let data = await nft.getAll()
-        console.log('NFT Data ', data)
+        let nft = new NFT();
+        let data = await nft.getAll();
+        console.log("NFT Data ", data);
         if (data) {
-          setNftData(data)
+          setNftData(data);
         }
       } catch (err) {
-        alert('Error! ' + err)
+        alert("Error! " + err);
       }
     };
-  
-    getNFT()
-  }, []);
 
+    getNFT();
+  }, []);
 
   return (
     <Grid container spacing={2}>
