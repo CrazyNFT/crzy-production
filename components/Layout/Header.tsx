@@ -157,8 +157,8 @@ export default function Header() {
       icon: <DashboardRoundedIcon />,
     },
     {
-      href: "/sell",
-      label: "Sell NFTs",
+      href: "/createnft",
+      label: "Create NFTs",
       icon: <MovieFilterRoundedIcon />,
     },
     {
