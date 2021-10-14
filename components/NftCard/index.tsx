@@ -151,7 +151,7 @@ export default function ImgMediaCard({ nft }) {
     <div>
       <Card className={classes.cardRoot}>
         <CardActionArea onClick={handleClickOpen}>
-          <CardMedia image={nft.imgurl} className={classes.img} />
+          <CardMedia image={nft.voucher.uri} className={classes.img} />
           <CardContent>
             <Typography gutterBottom variant="h5" component="h2">
               <strong>{nft.title}</strong>
@@ -177,7 +177,7 @@ export default function ImgMediaCard({ nft }) {
         <CardActions className={classes.action}>
           <div className={classes.nftInfo}>
             <Typography variant="body2" className={classes.nftPrice}>
-              {nft.cost}
+              {nft.price}
               {" ETH"}
             </Typography>
             <div style={{ display: "flex", alignItems: "center" }}>
@@ -189,14 +189,14 @@ export default function ImgMediaCard({ nft }) {
       </Card>
       <Dialog onClose={handleClose} open={open} maxWidth={"md"} fullWidth>
         <DialogTitle id="nft-dialog" onClose={handleClose}>
-          {"NFT NAME HERE"}
+          {nft.title}
         </DialogTitle>
         <DialogContent dividers>
           <Grid container>
             <Grid item xs={12} sm={12} md={6} style={{ overflow: "hidden" }}>
               <Grid item className={classes.imageFull}>
                 <img
-                  src={nft.imgurl}
+                  src={nft.voucher.uri}
                   alt={"nft-preview"}
                   className={classes.imageFull}
                   height="inherit"
@@ -224,7 +224,7 @@ export default function ImgMediaCard({ nft }) {
                   </ListItemAvatar>
                   <ListItemText
                     primary="author name"
-                    secondary="Posted on Sep 9, 2021"
+                    secondary={`Posted on ${nft.createdOn? nft.createdOn: ''}`}
                   />
                 </ListItem>
                 <div style={{ flexGrow: 1 }} />
@@ -250,20 +250,15 @@ export default function ImgMediaCard({ nft }) {
                 <Typography variant="h6" color="textSecondary">
                   Description
                 </Typography>
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                Laboriosam, vel sint? Temporibus recusandae vel consectetur odit
-                molestiae totam, accusantium aut nobis tenetur consequatur
-                expedita odio in perspiciatis minus assumenda. Aspernatur nam ad
-                labore architecto atque rem quaerat quod porro maiores! Quod,
-                officiis perspiciatis ad neque magnam sequi itaque cupiditate
-                exercitationem!
+                {nft.description}
               </Grid>
               <Grid item className={classes.flexCol}>
                 <Typography variant="h6" color="textSecondary">
                   Price
                 </Typography>
                 <Typography variant="h5" style={{ fontWeight: 600 }}>
-                  0.02 ETH
+                  {nft.price}
+                  {" ETH"}
                 </Typography>
               </Grid>
               <Grid item container spacing={2}>
