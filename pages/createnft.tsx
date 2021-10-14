@@ -197,7 +197,7 @@ export default function MarketPlace(props: any) {
           alert('Error! '+err)
         }
 
-      redeemNFT(result, data.price);
+      // redeemNFT(result, data.price);
     })
 
   }
