@@ -34,6 +34,8 @@ import { type } from "os";
 import Web3 from "web3";
 import Web3Modal, { getProviderDescription } from "web3modal";
 
+import NFT from '../services/models/nft'
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     createitembtn: {
@@ -173,7 +175,7 @@ export default function MarketPlace(props: any) {
     let signer = provider.getSigner();
     
 
-    getVoucher(1, url, parseInt(price), signer).then(function(result){
+    getVoucher(1, url, parseInt(price), signer).then(async function(result){
       const data = {
         'title':title,
         'description':description,
@@ -183,6 +185,18 @@ export default function MarketPlace(props: any) {
         'voucher': result,
         }
         console.log(data);
+
+        try{
+          let nft = new NFT()
+          let res = await nft.createNFT(data)
+          if(res){
+            console.log('NFT Data ', res)
+            alert('NFT Created!!')
+          }
+        } catch(err){
+          alert('Error! '+err)
+        }
+
       redeemNFT(result, data.price);
     })
 
