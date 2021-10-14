@@ -184,6 +184,8 @@ export default function MarketPlace(props: any) {
         'royalty': royalty,
         'voucher': result,
         }
+        let currentDate = new Date()
+        data['createdOn'] = currentDate.toString()
         console.log(data);
 
         try{
