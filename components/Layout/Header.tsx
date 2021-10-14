@@ -303,15 +303,15 @@ const chainOptions = [
   },
 ];
 
-const chainOptions = [
-  {
-    label: "BSC",
-    id: "chain-bsc",
-    value: "BSC",
-  },
-  {
-    label: "ETH",
-    id: "chain-eth",
-    value: "ETH",
-  },
-];
+// const chainOptions = [
+//   {
+//     label: "BSC",
+//     id: "chain-bsc",
+//     value: "BSC",
+//   },
+//   {
+//     label: "ETH",
+//     id: "chain-eth",
+//     value: "ETH",
+//   },
+// ];
