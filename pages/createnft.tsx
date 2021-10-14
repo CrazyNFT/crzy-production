@@ -14,18 +14,15 @@ import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 import Container from "@material-ui/core/Container";
 
-import LinearProgress from '@material-ui/core/LinearProgress';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import { Input } from '@material-ui/core';
+import LinearProgress from "@material-ui/core/LinearProgress";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import { Input } from "@material-ui/core";
 import { getVoucher, redeemNFT, uploadIPFS } from "@/components/LazyMint";
 
-
 const fetch = require("node-fetch");
-const ethers = require('ethers');
-const buffer = require('buffer');
-const web3 = require('web3');
-
-
+const ethers = require("ethers");
+const buffer = require("buffer");
+const web3 = require("web3");
 
 // IMPORTING SAMPLE NFT CARDS DATA
 import { nftData } from "@/components/tempdata/samplenfts.jsx";
@@ -34,7 +31,7 @@ import { type } from "os";
 import Web3 from "web3";
 import Web3Modal, { getProviderDescription } from "web3modal";
 
-import NFT from '../services/models/nft'
+import NFT from "../services/models/nft";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -122,8 +119,6 @@ const BorderLinearProgress = withStyles((theme) => ({
   },
 }))(LinearProgress);
 
-
-
 export default function MarketPlace(props: any) {
   const classes = useStyles();
 
@@ -150,11 +145,7 @@ export default function MarketPlace(props: any) {
   const handleFileUpload = (e) => {
     setSelectedFile(e.target.files[0]);
     setIsFilePicked(true);
-
-    
-  }
-
-  
+  };
 
   const handleSubmission = async () => {
     // STATE VARIABLES TO ACCESS FORM DATA
@@ -168,43 +159,37 @@ export default function MarketPlace(props: any) {
     // selectedFile,
     // }
 
-    
     let provider = new ethers.providers.Web3Provider(window.ethereum);
     const url = await uploadIPFS(selectedFile);
 
     let signer = provider.getSigner();
-    
-    getVoucher(1, url, parseInt(price), signer).then(async function(result){
 
+    getVoucher(1, url, parseInt(price), signer).then(async function (result) {
       const data = {
-        'title':title,
-        'description':description,
-        'url':url,
-        'price': price,
-        'royalty': royalty,
-        'voucher': result,
-        }
-        let currentDate = new Date()
-        data['createdOn'] = currentDate.toString()
-        console.log(data);
+        title: title,
+        description: description,
+        url: url,
+        price: price,
+        royalty: royalty,
+        voucher: result,
+      };
+      let currentDate = new Date();
+      data["createdOn"] = currentDate.toString();
 
-        try{
-          let nft = new NFT()
-          let res = await nft.createNFT(data)
-          if(res){
-            console.log('NFT Data ', res)
-            alert('NFT Created!!')
-          }
-        } catch(err){
-          alert('Error! '+err)
+      try {
+        let nft = new NFT();
+        let res = await nft.createNFT(data);
+        if (res) {
+          console.log("NFT Data ", res);
+          alert("NFT Created!!");
         }
+      } catch (err) {
+        alert("Error! " + err);
+      }
 
       // redeemNFT(result, data.price);
-    })
-
-  }
-
-
+    });
+  };
 
   return (
     <Container>

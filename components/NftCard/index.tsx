@@ -27,6 +27,8 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 // Icons
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import SeenIcon from "@material-ui/icons/VisibilityRounded";
+// Backend Functions
+import { redeemNFT } from "../LazyMint";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -66,7 +68,10 @@ const useStyles = makeStyles((theme: Theme) =>
       border: `2px solid ${theme.palette.primary.main}`,
     },
     imageFull: {
-      objectFit: "cover",
+      objectFit: "contain",
+      objectPosition: "center",
+      height: 300,
+      width: 400,
     },
     nftContent: {
       padding: "0px 16px",
@@ -147,6 +152,12 @@ export default function ImgMediaCard({ nft }) {
     setOpen(false);
   };
 
+  const handleBuy = async () => {
+    // console.log(nft);
+    const res = await redeemNFT(nft.voucher);
+    console.log(res);
+  };
+
   return (
     <div>
       <Card className={classes.cardRoot}>
@@ -194,7 +205,7 @@ export default function ImgMediaCard({ nft }) {
         <DialogContent dividers>
           <Grid container>
             <Grid item xs={12} sm={12} md={6} style={{ overflow: "hidden" }}>
-              <Grid item className={classes.imageFull}>
+              <Grid item>
                 <img
                   src={nft.voucher.uri}
                   alt={"nft-preview"}
@@ -224,7 +235,11 @@ export default function ImgMediaCard({ nft }) {
                   </ListItemAvatar>
                   <ListItemText
                     primary="author name"
-                    secondary={`Posted on ${nft.createdOn? nft.createdOn: ''}`}
+                    secondary={`Posted on ${
+                      nft.createdOn
+                        ? new Date(nft.createdOn).toLocaleDateString()
+                        : ""
+                    }`}
                   />
                 </ListItem>
                 <div style={{ flexGrow: 1 }} />
@@ -268,7 +283,12 @@ export default function ImgMediaCard({ nft }) {
                   </Button>
                 </Grid> */}
                 <Grid item xs={12} sm={6}>
-                  <Button variant="contained" color="primary" fullWidth>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    onClick={() => handleBuy()}
+                  >
                     BUY NOW
                   </Button>
                 </Grid>
