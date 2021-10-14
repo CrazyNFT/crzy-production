@@ -138,11 +138,11 @@ interface PageLinkProps {
 interface DrawerProps {
   toggle: () => void;
 }
-
 export default function Header() {
   const classes = useStyles();
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [chain, setChain] = React.useState("ETH");
+  const [chain, setChain] = React.useState(currencies.solana);
+
 
   // Link data
   const PageLinks: PageLinkProps[] = [
@@ -284,6 +284,24 @@ export default function Header() {
     </div>
   );
 }
+
+const currencies = {
+  solana:'SOL',
+  velas:'VLX'
+}
+
+const chainOptions = [
+  {
+    label: currencies.solana,
+    id: "chain-bsc",
+    value: currencies.solana,
+  },
+  {
+    label: currencies.velas,
+    id: "chain-vlx",
+    value: currencies.velas,
+  },
+];
 
 const chainOptions = [
   {
