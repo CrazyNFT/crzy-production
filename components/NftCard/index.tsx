@@ -262,11 +262,11 @@ export default function ImgMediaCard({ nft }) {
                 </Typography>
               </Grid>
               <Grid item container spacing={2}>
-                <Grid item xs={12} sm={6}>
+                {/* <Grid item xs={12} sm={6}>
                   <Button variant="outlined" color="primary" fullWidth>
                     CONNECT WALLET
                   </Button>
-                </Grid>
+                </Grid> */}
                 <Grid item xs={12} sm={6}>
                   <Button variant="contained" color="primary" fullWidth>
                     BUY NOW
