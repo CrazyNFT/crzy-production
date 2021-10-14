@@ -173,7 +173,7 @@ export default function MarketPlace(props: any) {
     let signer = provider.getSigner();
     
 
-    getVoucher(1, url, parseInt(price), signer).then(function(result){
+    getVoucher(69, url, parseInt(price), signer).then(function(result){
       const data = {
         'title':title,
         'description':description,
