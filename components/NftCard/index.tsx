@@ -157,12 +157,15 @@ export default function ImgMediaCard({ nft }) {
   };
 
   const handleBuy = async () => {
-    const res = await redeemNFT(nft.voucher);
-    const { id: NftID, ...NftData } = nft;
+
+    try{
+      const res = await redeemNFT(nft.voucher);
+      const { id: NftID, ...NftData } = nft;
     // Delete sold NFT
     const deleteRes = await db.collection("CrazyNFT").doc(NftID).delete();
     // Add Sold NFt to SoldNFT collection
     const addRes = await db.collection("SoldNFT").add(NftData);
+
     if (!!addRes) {
       enqueueSnackbar("Success! NFT Purchased", { variant: "success" });
       setOpen(false);
@@ -171,6 +174,13 @@ export default function ImgMediaCard({ nft }) {
         variant: "error",
       });
     }
+    } catch(err){
+      enqueueSnackbar("Oop! Couldn't buy NFT at the moment", {
+        variant: "error",
+      });
+    }
+    
+    
   };
 
   return (

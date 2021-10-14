@@ -58,9 +58,7 @@ export async function redeemNFT(voucher) {
     chainId: chain_id,
     gas: "2100000000",
   };
-  window.ethereum
+  const res = await window.ethereum
     .request({ method: "eth_sendTransaction", params: [params] })
-    .then(function (tx) {
-      console.log("Transaction: ", tx);
-    });
-}
+    console.log(res)
+} 
