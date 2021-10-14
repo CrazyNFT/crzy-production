@@ -1,16 +1,18 @@
 import { contract_address, chain_id, rpc_url, contract_abi } from "config";
-const buffer = require("buffer");
+import { ImportCandidate } from "ipfs-core-types/src/utils";
 import { create } from "ipfs-http-client";
 import Web3 from "web3";
-import detectEthereumProvider from "@metamask/detect-provider";
-
-const provider = detectEthereumProvider();
 const web3 = new Web3(rpc_url);
 
 // @ts-expect-error
 const client = create("https://ipfs.infura.io:5001/api/v0");
 
-export async function getVoucher(tokenId, uri, minPrice = 0, signer) {
+export async function getVoucher(
+  tokenId: any,
+  uri: string,
+  minPrice = 0,
+  signer: any
+) {
   const chainId = chain_id;
   const domain = {
     name: "LazyNFT-Voucher",
@@ -18,7 +20,6 @@ export async function getVoucher(tokenId, uri, minPrice = 0, signer) {
     verifyingContract: contract_address,
     chainId,
   };
-  var test = "Test";
 
   const voucher = { tokenId, uri, minPrice };
 
@@ -37,13 +38,14 @@ export async function getVoucher(tokenId, uri, minPrice = 0, signer) {
   };
 }
 
-export async function uploadIPFS(file) {
+export async function uploadIPFS(file: ImportCandidate) {
   const added = await client.add(file);
   const url = `https://ipfs.infura.io/ipfs/${added.path}`;
   return url;
 }
 
 export async function redeemNFT(voucher) {
+  // @ts-expect-error
   const contract = new web3.eth.Contract(contract_abi, contract_address);
 
   const amount = "1";
@@ -58,7 +60,9 @@ export async function redeemNFT(voucher) {
     chainId: chain_id,
     gas: "2100000000",
   };
-  const res = await window.ethereum
-    .request({ method: "eth_sendTransaction", params: [params] })
-    console.log(res)
-} 
+  const res = await window.ethereum.request({
+    method: "eth_sendTransaction",
+    params: [params],
+  });
+  console.log(res);
+}

@@ -1,4 +1,5 @@
 import React from "react";
+import { useRouter } from "next/router";
 import {
   makeStyles,
   createStyles,
@@ -16,6 +17,7 @@ import { Input } from "@material-ui/core";
 import { getVoucher, uploadIPFS } from "@/components/LazyMint";
 import { Button, FormControlLabel, Paper, TextField } from "@material-ui/core";
 import { v4 as uuidv4 } from "uuid";
+import { useSnackbar } from "notistack";
 import NFT from "../services/models/nft";
 const uuidParse = require("uuid").parse;
 const ethers = require("ethers");
@@ -120,46 +122,35 @@ let convertGuidToInt = (uuid: string) => {
 
 export default function MarketPlace(props: any) {
   const classes = useStyles();
+  const { enqueueSnackbar } = useSnackbar();
+  const router = useRouter();
   const [selectedType, setSelectedType] = React.useState("single");
   const [title, setTitle] = React.useState("");
   const [description, setDescription] = React.useState("");
   const [externalLink, setExternalLink] = React.useState("");
   const [price, setPrice] = React.useState("");
   const [royalty, setRoyalty] = React.useState(0);
-
   const [selectedFile, setSelectedFile] = React.useState();
   const [isFilePicked, setIsFilePicked] = React.useState(false);
 
-  const IncrementRoyalty = (e) => {
+  const IncrementRoyalty = (e: any) => {
     if (royalty <= 90) {
       setRoyalty(royalty + 10);
     }
   };
-  const DecrementRoyalty = (e) => {
+  const DecrementRoyalty = (e: any) => {
     if (royalty >= 10) {
       setRoyalty(royalty - 10);
     }
   };
-  const handleFileUpload = (e) => {
+  const handleFileUpload = (e: any) => {
     setSelectedFile(e.target.files[0]);
     setIsFilePicked(true);
   };
 
   const handleSubmission = async () => {
-    // STATE VARIABLES TO ACCESS FORM DATA
-    // {
-    // type,
-    // title,
-    // description,
-    // externalLink,
-    // price,
-    // royalty,
-    // selectedFile,
-    // }
-
     let provider = new ethers.providers.Web3Provider(window.ethereum);
     const url = await uploadIPFS(selectedFile);
-
     let signer = provider.getSigner();
 
     getVoucher(convertGuidToInt(uuidv4()), url, parseInt(price), signer).then(
@@ -174,19 +165,20 @@ export default function MarketPlace(props: any) {
         };
         let currentDate = new Date();
         data["createdOn"] = currentDate.toString();
-
         try {
           let nft = new NFT();
           let res = await nft.createNFT(data);
           if (res) {
-            console.log("NFT Data ", res);
-            alert("NFT Created!!");
+            enqueueSnackbar("NFT Created successfully!", {
+              variant: "success",
+            });
+            router.push("/marketplace");
           }
         } catch (err) {
-          alert("Error! " + err);
+          enqueueSnackbar("Error creating NFT", {
+            variant: "error",
+          });
         }
-
-        // redeemNFT(result, data.price);
       }
     );
   };
