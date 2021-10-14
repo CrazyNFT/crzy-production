@@ -121,10 +121,13 @@ interface PageLinkProps {
 interface DrawerProps {
   toggle: () => void;
 }
-
 export default function Header() {
   const classes = useStyles();
   const [mobileOpen, setMobileOpen] = React.useState(false);
+<<<<<<< Updated upstream:components/Header/index.tsx
+=======
+  const [chain, setChain] = React.useState(currencies.solana);
+>>>>>>> Stashed changes:components/Layout/Header.tsx
 
   // Link data
   const PageLinks: PageLinkProps[] = [
@@ -257,3 +260,24 @@ export default function Header() {
     </div>
   );
 }
+<<<<<<< Updated upstream:components/Header/index.tsx
+=======
+
+const currencies = {
+  solana:'SOL',
+  velas:'VLX'
+}
+
+const chainOptions = [
+  {
+    label: currencies.solana,
+    id: "chain-bsc",
+    value: currencies.solana,
+  },
+  {
+    label: currencies.velas,
+    id: "chain-vlx",
+    value: currencies.velas,
+  },
+];
+>>>>>>> Stashed changes:components/Layout/Header.tsx
