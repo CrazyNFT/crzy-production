@@ -48,12 +48,12 @@ export async function redeemNFT(voucher) {
   // @ts-expect-error
   const contract = new web3.eth.Contract(contract_abi, contract_address);
 
-  const amount = "1";
-  const amountToSend = web3.utils.toWei(amount, "ether"); // Convert to wei value
+  const amount = voucher["minPrice"];
+  const amountToSend = web3.utils.toWei(amount.toString(), "ether"); // Convert to wei value
   const params = {
     from: window.ethereum.selectedAddress,
     to: contract.options.address,
-    value: "13",
+    value: amountToSend,
     data: contract.methods
       .redeem(window.ethereum.selectedAddress, voucher)
       .encodeABI(),
