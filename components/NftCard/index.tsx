@@ -214,7 +214,7 @@ export default function ImgMediaCard({ nft }) {
           <div className={classes.nftInfo}>
             <Typography variant="body2" className={classes.nftPrice}>
               {nft.price}
-              {" ETH"}
+              {" SOL"}
             </Typography>
             <div style={{ display: "flex", alignItems: "center" }}>
               <FavoriteIcon className={classes.heart} />
@@ -298,7 +298,7 @@ export default function ImgMediaCard({ nft }) {
                 </Typography>
                 <Typography variant="h5" style={{ fontWeight: 600 }}>
                   {nft.price}
-                  {" ETH"}
+                  {" SOL"}
                 </Typography>
               </Grid>
               <Grid item container spacing={2}>

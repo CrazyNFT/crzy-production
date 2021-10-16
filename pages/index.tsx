@@ -259,12 +259,10 @@ export default function SimpleContainer() {
       <div className={classes.banner}>
         <Container>
           <Typography variant="h3" align="center" className={classes.h3}>
-            The CRZY Token
+            Get your Testnet $VLX!
           </Typography>
           <Typography paragraph align="center">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cupiditate
-            at vero asperiores neque, earum, aspernatur velit fuga inventore
-            veritatis a enim corporis ullam quia, praesentium sunt magnam eaque.
+          <a href="https://t.me/velas_faucet_bot">Click Here!</a> to get your Velas Testnet Tokens. Send your Public Key to the Telegram BOT to earn free $VLX tokens!
           </Typography>
         </Container>
       </div>

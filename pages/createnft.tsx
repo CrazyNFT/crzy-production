@@ -276,7 +276,7 @@ export default function MarketPlace(props: any) {
           fullWidth
           onChange={(e) => setPrice(e.target.value)}
           InputProps={{
-            endAdornment: <InputAdornment position="end">BNB</InputAdornment>,
+            endAdornment: <InputAdornment position="end">SOL</InputAdornment>,
           }}
           label="Enter price for a single item"
           variant="outlined"
