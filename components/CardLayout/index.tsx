@@ -11,7 +11,6 @@ export default function CardLayout() {
       try {
         let nft = new NFT();
         let data = await nft.getAll();
-        console.log("NFT Data ", data);
         if (data) {
           setNftData(data);
         }

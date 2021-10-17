@@ -152,6 +152,7 @@ export default function MarketPlace(props: any) {
     let provider = new ethers.providers.Web3Provider(window.ethereum);
     const url = await uploadIPFS(selectedFile);
     let signer = provider.getSigner();
+    let acc = window.ethereum.selectedAddress
 
     getVoucher(convertGuidToInt(uuidv4()), url, parseInt(price), signer).then(
       async function (result) {
@@ -165,6 +166,7 @@ export default function MarketPlace(props: any) {
         };
         let currentDate = new Date();
         data["createdOn"] = currentDate.toString();
+        data["createdBy"] = acc
         try {
           let nft = new NFT();
           let res = await nft.createNFT(data);

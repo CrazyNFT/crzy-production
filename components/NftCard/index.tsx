@@ -205,7 +205,7 @@ export default function ImgMediaCard({ nft }) {
                 src={nft.ownerIcon}
               />
               <Typography variant="body2" color="textSecondary" component="div">
-                {nft.owner}
+                {nft.createdBy? nft.createdBy.slice(0, 5) + '...' + nft.createdBy.slice(-4): ''}
               </Typography>
             </div>
           </CardContent>
@@ -259,7 +259,7 @@ export default function ImgMediaCard({ nft }) {
                     />
                   </ListItemAvatar>
                   <ListItemText
-                    primary="author name"
+                    primary={nft.createdBy}
                     secondary={`Posted on ${
                       nft.createdOn
                         ? new Date(nft.createdOn).toLocaleDateString()
