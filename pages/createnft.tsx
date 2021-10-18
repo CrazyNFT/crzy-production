@@ -19,6 +19,7 @@ import { Button, FormControlLabel, Paper, TextField } from "@material-ui/core";
 import { v4 as uuidv4 } from "uuid";
 import { useSnackbar } from "notistack";
 import NFT from "../services/models/nft";
+import { withdrawTokens, availableToWithdraw } from "../components/LazyMint";
 const uuidParse = require("uuid").parse;
 const ethers = require("ethers");
 
@@ -308,6 +309,13 @@ export default function MarketPlace(props: any) {
           onClick={handleSubmission}
         >
           Create Item
+        </Button>
+        <Button
+          className={classes.createitembtn}
+          variant="outlined"
+          onClick={availableToWithdraw}
+        >
+          Available to Withdraw
         </Button>
       </Container>
     </Container>

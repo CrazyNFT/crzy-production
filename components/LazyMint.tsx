@@ -44,6 +44,23 @@ export async function uploadIPFS(file: ImportCandidate) {
   return url;
 }
 
+export async function availableToWithdraw(){
+  const contract = new web3.eth.Contract(contract_abi, contract_address);
+  let balance = await contract.methods.availableToWithdraw().call({from: window.ethereum.selectedAddress});
+  console.log(balance);
+}
+
+export async function withdrawTokens(){
+  const contract = new web3.eth.Contract(contract_abi, contract_address);
+  contract.methods.withdraw();
+  const params = {
+    from: window.ethereum.selectedAddress,
+    to: contract.options.address,
+    chainId: chain_id,
+  };
+  // contract.methods.withdraw();
+}
+
 export async function redeemNFT(voucher) {
   // @ts-expect-error
   const contract = new web3.eth.Contract(contract_abi, contract_address);
