@@ -141,7 +141,7 @@ interface DrawerProps {
 export default function Header() {
   const classes = useStyles();
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [chain, setChain] = React.useState(currencies.solana);
+  const [chain, setChain] = React.useState(currencies.VLX);
 
 
   // Link data
@@ -286,20 +286,33 @@ export default function Header() {
 }
 
 const currencies = {
-  solana:'SOL',
-  velas:'VLX'
+  SOL:'SOL',
+  VLX:'VLX',
+  BSC: 'BSC',
+  ETH: 'ETH',
+  MATIC:'MATIC',
 }
 
 const chainOptions = [
   {
-    label: currencies.solana,
+    label: currencies.BSC,
     id: "chain-bsc",
-    value: currencies.solana,
+    value: currencies.BSC,
   },
   {
-    label: currencies.velas,
+    label: currencies.ETH,
+    id: "chain-eth",
+    value: currencies.ETH,
+  },
+  // {
+  //   label: currencies.MATIC,
+  //   id: "chain-matic",
+  //   value: currencies.MATIC,
+  // },
+  {
+    label: currencies.VLX,
     id: "chain-vlx",
-    value: currencies.velas,
+    value: currencies.VLX,
   },
 ];
 

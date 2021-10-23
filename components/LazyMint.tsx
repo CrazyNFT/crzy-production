@@ -1,9 +1,12 @@
 import { contract_address, chain_id, rpc_url, contract_abi } from "config";
+// import . from "config";
 import { ImportCandidate } from "ipfs-core-types/src/utils";
 import { create } from "ipfs-http-client";
 import Web3 from "web3";
-const web3 = new Web3(rpc_url);
-
+// import [chain, setChain] from "./Layout/Header";
+const web3 = new Web3(rpc_url.VLX);
+const chainId = chain_id.VLX;
+const contractAddress = contract_address.VLX
 // @ts-expect-error
 const client = create("https://ipfs.infura.io:5001/api/v0");
 
@@ -13,11 +16,11 @@ export async function getVoucher(
   minPrice = 0,
   signer: any
 ) {
-  const chainId = chain_id;
+  
   const domain = {
     name: "LazyNFT-Voucher",
     version: "0.01",
-    verifyingContract: contract_address,
+    verifyingContract: contractAddress,
     chainId,
   };
 
@@ -45,13 +48,13 @@ export async function uploadIPFS(file: ImportCandidate) {
 }
 
 export async function availableToWithdraw(){
-  const contract = new web3.eth.Contract(contract_abi, contract_address);
+  const contract = new web3.eth.Contract(contract_abi, contractAddress);
   let balance = await contract.methods.availableToWithdraw().call({from: window.ethereum.selectedAddress});
   console.log(balance);
 }
 
 export async function withdrawTokens(){
-  const contract = new web3.eth.Contract(contract_abi, contract_address);
+  const contract = new web3.eth.Contract(contract_abi, contractAddress);
   contract.methods.withdraw();
   const params = {
     from: window.ethereum.selectedAddress,
@@ -63,7 +66,7 @@ export async function withdrawTokens(){
 
 export async function redeemNFT(voucher) {
   // @ts-expect-error
-  const contract = new web3.eth.Contract(contract_abi, contract_address);
+  const contract = new web3.eth.Contract(contract_abi, contractAddress);
 
   const amount = voucher["minPrice"];
   const amountToSend = web3.utils.toWei(amount.toString(), "ether"); // Convert to wei value
