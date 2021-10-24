@@ -1,8 +1,23 @@
-export var contract_address = "0x81090BcDD7a8F0683d0707D9D86b1b03420f1114";//"0x9D8124F5658caB3C7787aa239F94A4CBd848Ff88";//"0x138fFdDd2efCa4992AE8bBB8C8d74Ced6Db2AF4F";
-export var chain_id = '111';//'111';//'80001';
-export var rpc_url = 'https://evmexplorer.testnet.velas.com/rpc';
+export var contract_address = {
+	BSC:"0xE4D5f5A6849f3801a0E6E62BFCB162cb9294eb53",
+	ETH:'0x3E73035119A1ca6efAA3Da02fc06DBCb5d6e9850',
+	VLX:"0x81090BcDD7a8F0683d0707D9D86b1b03420f1114",
+};//"0x9D8124F5658caB3C7787aa239F94A4CBd848Ff88";//"0x138fFdDd2efCa4992AE8bBB8C8d74Ced6Db2AF4F";
+export var chain_id = {
+	BSC:'97',
+	ETH:'',
+	VLX:'111',
+};//'111';//'80001';
+export var rpc_url = {
+	BSC:'https://data-seed-prebsc-1-s1.binance.org:8545',
+	ETH:'https://ropsten.infura.io/v3/7a83a1ed33ff4bedae09b00782de9a3f',
+	VLX:'https://evmexplorer.testnet.velas.com/rpc',
+};
 //'https://ropsten.infura.io/v3/7a83a1ed33ff4bedae09b00782de9a3f';
 
+export var BSC_contract_address = "";
+export var BSC_chain_id = "";
+export var BSC_rpc_url = "";
  /*'https://api.testnet.velas.com';*/
 export var contract_abi = [
 	{
