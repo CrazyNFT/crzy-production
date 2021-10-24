@@ -47,8 +47,8 @@ interface SelectOption {
 
 interface CustomizedSelectProps {
   label?: string;
-  selectVal: string;
-  setSelectVal: React.Dispatch<React.SetStateAction<string>>;
+  selectVal: any;
+  setSelectVal: React.Dispatch<React.SetStateAction<any>>;
   options: SelectOption[];
   noneLabel?: string;
   customClass?: string;

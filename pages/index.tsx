@@ -262,7 +262,9 @@ export default function SimpleContainer() {
             Get your Testnet $VLX!
           </Typography>
           <Typography paragraph align="center">
-          <a href="https://t.me/velas_faucet_bot">Click Here!</a> to get your Velas Testnet Tokens. Send your Public Key to the Telegram BOT to earn free $VLX tokens!
+            <a href="https://t.me/velas_faucet_bot">Click Here!</a> to get your
+            Velas Testnet Tokens. Send your Public Key to the Telegram BOT to
+            earn free $VLX tokens!
           </Typography>
         </Container>
       </div>

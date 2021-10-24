@@ -6,6 +6,7 @@ import { SnackbarProvider } from "notistack";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import theme from "@/styles/theme";
 import Layout from "@/components/Layout";
+import CurrencyContextProvider from "@/context/currencyContext";
 import "@/styles/globals.css";
 
 export default function CrzyNFT(props: AppProps) {
@@ -31,9 +32,11 @@ export default function CrzyNFT(props: AppProps) {
       <ThemeProvider theme={theme}>
         <SnackbarProvider>
           <CssBaseline />
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
+          <CurrencyContextProvider>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </CurrencyContextProvider>
         </SnackbarProvider>
       </ThemeProvider>
     </React.Fragment>

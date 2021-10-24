@@ -12,9 +12,6 @@ import Select from "@/components/Select";
 import Pagination from "@/components/Pagination";
 import CardLayout from "@/components/CardLayout";
 
-// IMPORTING SAMPLE NFT CARDS DATA
-import { nftData } from "@/components/tempdata/samplenfts.jsx";
-
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     spaceBetween: {
@@ -52,8 +49,7 @@ export default function MarketPlace(props: any) {
     <Container>
       <Toolbar className={classes.spaceBetween}>
         <Typography variant="body1">
-          <b>Art | </b>
-          {nftData.length}
+          <b>Art</b>
         </Typography>
         <div className={classes.select}>
           <Typography variant="body1" className={classes.selectlabel}>

@@ -23,6 +23,8 @@ import {
 } from "@material-ui/core/styles";
 // Custom
 import Select from "@/components/Select";
+// Context
+import { useCurrency, currencyOptions } from "@/context/currencyContext";
 // Mui-icons
 import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
@@ -141,8 +143,7 @@ interface DrawerProps {
 export default function Header() {
   const classes = useStyles();
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [chain, setChain] = React.useState(currencies.solana);
-
+  const { currency, setCurrency } = useCurrency();
 
   // Link data
   const PageLinks: PageLinkProps[] = [
@@ -271,9 +272,9 @@ export default function Header() {
           <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
             <SearchBar />
             <Select
-              options={chainOptions}
-              selectVal={chain}
-              setSelectVal={setChain}
+              options={currencyOptions}
+              selectVal={currency}
+              setSelectVal={setCurrency}
               customClass={classes.selectStyles}
             />
             <ConnectButton />
@@ -284,34 +285,3 @@ export default function Header() {
     </div>
   );
 }
-
-const currencies = {
-  solana:'SOL',
-  velas:'VLX'
-}
-
-const chainOptions = [
-  {
-    label: currencies.solana,
-    id: "chain-bsc",
-    value: currencies.solana,
-  },
-  {
-    label: currencies.velas,
-    id: "chain-vlx",
-    value: currencies.velas,
-  },
-];
-
-// const chainOptions = [
-//   {
-//     label: "BSC",
-//     id: "chain-bsc",
-//     value: "BSC",
-//   },
-//   {
-//     label: "ETH",
-//     id: "chain-eth",
-//     value: "ETH",
-//   },
-// ];
