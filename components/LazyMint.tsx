@@ -11,15 +11,15 @@ const client = create("https://ipfs.infura.io:5001/api/v0");
 export async function getVoucher(
   tokenId: any,
   uri: string,
-  minPrice = 0,
-  signer: any
+  minPrice: any,
+  signer: any,
+  chainID?: string,
 ) {
-  const { currency } = useCurrency();
   const domain = {
-    name: "LazyNFT-Voucher",
+    name: "CrazyNFT-Voucher",
     version: "0.01",
     verifyingContract: contract_address,
-    chainId: currency.chain_id,
+    // chainId: parseInt(chainID),
   };
 
   const voucher = { tokenId, uri, minPrice };
@@ -45,8 +45,7 @@ export async function uploadIPFS(file: ImportCandidate) {
   return url;
 }
 
-export async function availableToWithdraw() {
-  const { currency } = useCurrency();
+export async function availableToWithdraw(currency) {
   const web3 = new Web3(currency.rpc_url);
   const contract = new web3.eth.Contract(
     // @ts-expect-error
@@ -59,25 +58,25 @@ export async function availableToWithdraw() {
   console.log(balance);
 }
 
-export async function withdrawTokens() {
-  const { currency } = useCurrency();
-  const web3 = new Web3(currency.rpc_url);
-  const contract = new web3.eth.Contract(
-    // @ts-expect-error
-    contract_abi,
-    currency.contract_address
-  );
-  contract.methods.withdraw();
-  const params = {
-    from: window.ethereum.selectedAddress,
-    to: contract.options.address,
-    chainId: currency.chain_id,
-  };
-  // contract.methods.withdraw();
-}
+// export async function withdrawTokens() {
+//   const { currency } = useCurrency();
+//   const web3 = new Web3(currency.rpc_url);
+//   const contract = new web3.eth.Contract(
+//     // @ts-expect-error
+//     contract_abi,
+//     currency.contract_address
+//   );
+//   contract.methods.withdraw();
+//   const params = {
+//     from: window.ethereum.selectedAddress,
+//     to: contract.options.address,
+//     chainId: currency.chain_id,
+//   };
+//   // contract.methods.withdraw();
+// }
 
-export async function redeemNFT(voucher) {
-  const { currency } = useCurrency();
+export async function redeemNFT(voucher, currency) {
+  // const { currency } = useCurrency();
   const web3 = new Web3(currency.rpc_url);
   const contract = new web3.eth.Contract(
     // @ts-expect-error
@@ -95,11 +94,12 @@ export async function redeemNFT(voucher) {
       .redeem(window.ethereum.selectedAddress, voucher)
       .encodeABI(),
     chainId: currency.chain_id,
-    gas: "2100000000",
+    // gas: "2100000000",
   };
+  let gasAmount = await web3.eth.estimateGas(params);
   const res = await window.ethereum.request({
     method: "eth_sendTransaction",
-    params: [params],
+    params: [params,{gas:gasAmount}],
   });
   console.log(res);
 }

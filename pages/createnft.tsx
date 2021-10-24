@@ -19,7 +19,8 @@ import { Button, FormControlLabel, Paper, TextField } from "@material-ui/core";
 import { v4 as uuidv4 } from "uuid";
 import { useSnackbar } from "notistack";
 import NFT from "../services/models/nft";
-import { withdrawTokens, availableToWithdraw } from "../components/LazyMint";
+// import { withdrawTokens, availableToWithdraw } from "../components/LazyMint";
+import { useCurrency } from "@/context/currencyContext";
 const uuidParse = require("uuid").parse;
 const ethers = require("ethers");
 
@@ -133,7 +134,7 @@ export default function MarketPlace(props: any) {
   const [royalty, setRoyalty] = React.useState(0);
   const [selectedFile, setSelectedFile] = React.useState();
   const [isFilePicked, setIsFilePicked] = React.useState(false);
-
+  const { currency } = useCurrency();
   const IncrementRoyalty = (e: any) => {
     if (royalty <= 90) {
       setRoyalty(royalty + 10);
@@ -310,13 +311,13 @@ export default function MarketPlace(props: any) {
         >
           Create Item
         </Button>
-        <Button
+        {/* <Button
           className={classes.createitembtn}
           variant="outlined"
-          onClick={availableToWithdraw}
+          onClick={availableToWithdraw(currency)}
         >
           Available to Withdraw
-        </Button>
+        </Button> */}
       </Container>
     </Container>
   );

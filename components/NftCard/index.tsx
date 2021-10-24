@@ -31,6 +31,7 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import SeenIcon from "@material-ui/icons/VisibilityRounded";
 // Backend Functions
 import { redeemNFT } from "../LazyMint";
+import { useCurrency } from "@/context/currencyContext";
 // Firebase
 import { db } from "../../services/firefolder/setup";
 
@@ -149,6 +150,7 @@ export default function ImgMediaCard({ nft }) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const { enqueueSnackbar } = useSnackbar();
+  const { currency } = useCurrency();
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -159,7 +161,7 @@ export default function ImgMediaCard({ nft }) {
   const handleBuy = async () => {
 
     try{
-      const res = await redeemNFT(nft.voucher);
+      const res = await redeemNFT(nft.voucher, currency);
       const { id: NftID, ...NftData } = nft;
     // Delete sold NFT
     const deleteRes = await db.collection("CrazyNFT").doc(NftID).delete();
