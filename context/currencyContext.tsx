@@ -48,21 +48,37 @@ const defaultCurrency: Currency = {
 
 export const currencyOptions: Array<Currency> = [
   {
+    label: "AVAX",
+    id: "chain-avax",
+    value: "AVAX",
+    contract_address: "0x3E73035119A1ca6efAA3Da02fc06DBCb5d6e9850",
+    chain_id: "43113",
+    rpc_url: "https://api.avax-test.network/ext/bc/C/rpc",
+  },
+  {
+    label: "BSC",
+    id: "chain-bsc",
+    value: "BNB",
+    contract_address: "0xE4D5f5A6849f3801a0E6E62BFCB162cb9294eb53",
+    chain_id: "97",
+    rpc_url: "https://data-seed-prebsc-1-s1.binance.org:8545",
+  },
+  {
+    label: "ROPSTEN",
+    id: "chain-eth",
+    value: "ETH",
+    contract_address: "0x3E73035119A1ca6efAA3Da02fc06DBCb5d6e9850",
+    chain_id: "",
+    rpc_url: "https://ropsten.infura.io/v3/7a83a1ed33ff4bedae09b00782de9a3f",
+  },
+  {
     label: "VLX",
     id: "chain-vlx",
     value: "VLX",
     contract_address: "0x81090BcDD7a8F0683d0707D9D86b1b03420f1114",
     chain_id: "111",
     rpc_url: "https://evmexplorer.testnet.velas.com/rpc",
-  },
-  {
-    label: "BSC",
-    id: "chain-bsc",
-    value: "BSC",
-    contract_address: "0xE4D5f5A6849f3801a0E6E62BFCB162cb9294eb53",
-    chain_id: "97",
-    rpc_url: "https://data-seed-prebsc-1-s1.binance.org:8545",
-  },
+  },  
 ];
 
 const CurrencyContext = createContext<CurrencyContext>({

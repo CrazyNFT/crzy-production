@@ -20,6 +20,7 @@ import { v4 as uuidv4 } from "uuid";
 import { useSnackbar } from "notistack";
 import NFT from "../services/models/nft";
 import { withdrawTokens, availableToWithdraw } from "../components/LazyMint";
+import { useCurrency } from "@/context/currencyContext";
 const uuidParse = require("uuid").parse;
 const ethers = require("ethers");
 
@@ -133,7 +134,7 @@ export default function MarketPlace(props: any) {
   const [royalty, setRoyalty] = React.useState(0);
   const [selectedFile, setSelectedFile] = React.useState();
   const [isFilePicked, setIsFilePicked] = React.useState(false);
-
+  const { currency } = useCurrency();
   const IncrementRoyalty = (e: any) => {
     if (royalty <= 90) {
       setRoyalty(royalty + 10);
@@ -155,7 +156,7 @@ export default function MarketPlace(props: any) {
     let signer = provider.getSigner();
     let acc = window.ethereum.selectedAddress
 
-    getVoucher(convertGuidToInt(uuidv4()), url, parseInt(price), signer).then(
+    getVoucher(convertGuidToInt(uuidv4()), url, parseInt(price), signer, currency).then(
       async function (result) {
         const data = {
           title: title,

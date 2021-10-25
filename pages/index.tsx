@@ -199,15 +199,15 @@ export default function SimpleContainer() {
           align="center"
           className={clsx(classes.h3, classes.primaryColor)}
         >
-          CrazyNFT Solana-Velas Integration (Beta-1.0.0)
+          CrazyNFT (Beta-1.0.0)
         </Typography>
         <Typography paragraph align="center" className={classes.paragraph}>
           {
-            "This version of CrazyNFT runs on top of the Solana blockchain using Velas EVM emulator"
+            "This version of CrazyNFT runs on top of all EVM supported chains"
           }
           <br />
-          {"Connect your Local wallet to "}
-          <b> Velas Testnet </b>
+          {"Make sure your wallet is connected to the right chain as selected "}
+          {/* <b> Velas Testnet </b> */}
           {" before interacting with the application"}
         </Typography>
         <Container maxWidth="sm">
@@ -217,7 +217,7 @@ export default function SimpleContainer() {
             className={clsx(classes.h3, classes.primaryColor)}
           ></Typography>
         </Container>
-        <Grid
+        {/* <Grid
           container
           justifyContent="center"
           spacing={1}
@@ -254,18 +254,18 @@ export default function SimpleContainer() {
               <a href="https://docs.velas.com/evm/airdrop/">faucet</a>
             </Typography>
           </Grid>
-        </Grid>
+        </Grid> */}
       </Container>
       <div className={classes.banner}>
         <Container>
           <Typography variant="h3" align="center" className={classes.h3}>
-            Get your Testnet $VLX!
+            Get your Testnet Tokens before starting!
           </Typography>
-          <Typography paragraph align="center">
+          {/* <Typography paragraph align="center">
             <a href="https://t.me/velas_faucet_bot">Click Here!</a> to get your
             Velas Testnet Tokens. Send your Public Key to the Telegram BOT to
             earn free $VLX tokens!
-          </Typography>
+          </Typography> */}
         </Container>
       </div>
     </React.Fragment>
