@@ -157,7 +157,7 @@ export default function ImgMediaCard({ nft }) {
   const handleClose = () => {
     setOpen(false);
   };
-
+console.log(currency)
   const handleBuy = async () => {
 
     try{
@@ -300,7 +300,8 @@ export default function ImgMediaCard({ nft }) {
                 </Typography>
                 <Typography variant="h5" style={{ fontWeight: 600 }}>
                   {nft.price}
-                  {" SOL"}
+
+                  {`${currency.value}`}
                 </Typography>
               </Grid>
               <Grid item container spacing={2}>

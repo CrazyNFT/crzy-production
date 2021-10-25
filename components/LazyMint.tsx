@@ -13,13 +13,13 @@ export async function getVoucher(
   uri: string,
   minPrice: any,
   signer: any,
-  chainID?: string,
+  chainID?: BigInteger,
 ) {
   const domain = {
     name: "CrazyNFT-Voucher",
     version: "0.01",
     verifyingContract: contract_address,
-    // chainId: parseInt(chainID),
+    // chainId: chainID,
   };
 
   const voucher = { tokenId, uri, minPrice };
@@ -76,6 +76,8 @@ export async function availableToWithdraw(currency) {
 // }
 
 export async function redeemNFT(voucher, currency) {
+  console.log("Reached into function");
+  console.log(currency.contract_address);
   // const { currency } = useCurrency();
   const web3 = new Web3(currency.rpc_url);
   const contract = new web3.eth.Contract(
@@ -83,7 +85,7 @@ export async function redeemNFT(voucher, currency) {
     contract_abi,
     currency.contract_address
   );
-
+  console.log("Created new Web3 instance");
   const amount = voucher["minPrice"];
   const amountToSend = web3.utils.toWei(amount.toString(), "ether"); // Convert to wei value
   const params = {
@@ -93,13 +95,15 @@ export async function redeemNFT(voucher, currency) {
     data: contract.methods
       .redeem(window.ethereum.selectedAddress, voucher)
       .encodeABI(),
-    chainId: currency.chain_id,
+    // chainId: currency.chain_id,
     // gas: "2100000000",
   };
   let gasAmount = await web3.eth.estimateGas(params);
+  console.log("Gas Predicted");
   const res = await window.ethereum.request({
     method: "eth_sendTransaction",
     params: [params,{gas:gasAmount}],
   });
+  console.log("Done");
   console.log(res);
 }
