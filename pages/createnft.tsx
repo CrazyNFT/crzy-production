@@ -19,7 +19,7 @@ import { Button, FormControlLabel, Paper, TextField } from "@material-ui/core";
 import { v4 as uuidv4 } from "uuid";
 import { useSnackbar } from "notistack";
 import NFT from "../services/models/nft";
-import { withdrawTokens, availableToWithdraw } from "../components/LazyMint";
+// import { withdrawTokens, availableToWithdraw } from "../components/LazyMint";
 import { useCurrency } from "@/context/currencyContext";
 const uuidParse = require("uuid").parse;
 const ethers = require("ethers");
@@ -311,13 +311,13 @@ export default function MarketPlace(props: any) {
         >
           Create Item
         </Button>
-        <Button
+        {/* <Button
           className={classes.createitembtn}
           variant="outlined"
           onClick={availableToWithdraw}
         >
           Available to Withdraw
-        </Button>
+        </Button> */}
       </Container>
     </Container>
   );
