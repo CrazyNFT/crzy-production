@@ -7,7 +7,7 @@ import {
   useContext,
 } from "react";
 
-type Currency = {
+export type Currency = {
   label: string;
   id: string;
   value: string;

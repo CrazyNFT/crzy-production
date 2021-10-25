@@ -145,6 +145,8 @@ export default function Header() {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const { currency, setCurrency } = useCurrency();
 
+  console.log(currency);
+
   // Link data
   const PageLinks: PageLinkProps[] = [
     {
@@ -273,9 +275,9 @@ export default function Header() {
             <SearchBar />
             <Select
               options={currencyOptions}
-              selectVal={currency}
-              setSelectVal={setCurrency}
+              selectVal={currency.value}
               customClass={classes.selectStyles}
+              setCurrency={setCurrency}
             />
             <ConnectButton />
           </div>

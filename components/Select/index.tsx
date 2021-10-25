@@ -4,13 +4,13 @@ import {
   makeStyles,
   withStyles,
   Theme,
-  alpha,
 } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import InputBase from "@material-ui/core/InputBase";
+import { Currency, currencyOptions } from "@/context/currencyContext";
 
 const CustomInput = withStyles((theme: Theme) =>
   createStyles({
@@ -48,7 +48,9 @@ interface SelectOption {
 interface CustomizedSelectProps {
   label?: string;
   selectVal: any;
-  setSelectVal: React.Dispatch<React.SetStateAction<any>>;
+  setSelectVal?: React.Dispatch<React.SetStateAction<any>>;
+  // Currency select only
+  setCurrency?: React.Dispatch<React.SetStateAction<Currency>>;
   options: SelectOption[];
   noneLabel?: string;
   customClass?: string;
@@ -61,11 +63,18 @@ export default function CustomizedSelect({
   options,
   noneLabel,
   customClass,
+  setCurrency,
 }: CustomizedSelectProps) {
   const classes = useStyles();
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setSelectVal(event.target.value as string);
+    if (!!setCurrency) {
+      setCurrency(currencyOptions.find((c) => c.value === event.target.value));
+      // setSelectVal(event.target.value as string);
+    } else {
+      setSelectVal(event.target.value as string);
+    }
   };
+
   return (
     <div>
       <FormControl className={classes.margin}>
