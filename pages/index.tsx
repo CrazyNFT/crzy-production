@@ -144,6 +144,7 @@ import Container from "@material-ui/core/Container";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
+import ComingSoon from "components/Comingsoon/ComingSoon";
 
 const useStyles = makeStyles((theme: Theme) => ({
   "@global": {
@@ -193,7 +194,7 @@ export default function SimpleContainer() {
   const classes = useStyles();
   return (
     <React.Fragment>
-      <Container className={classes.pageContainer}>
+      (<Container className={classes.pageContainer}>
         <Typography
           variant="h3"
           align="center"
