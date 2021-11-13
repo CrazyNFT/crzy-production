@@ -1,4 +1,6 @@
 import React from "react";
+import Image from "next/image";
+import { useRouter } from "next/router";
 import { useForm, FormProvider, Controller } from "react-hook-form";
 import { useSnackbar } from "notistack";
 import {
@@ -16,15 +18,24 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Tooltip from "@material-ui/core/Tooltip";
+import IconButton from "@material-ui/core/IconButton";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import Alert from "@material-ui/lab/Alert";
 import AlertTitle from "@material-ui/lab/AlertTitle";
 import ImageDropZone from "@/components/ImageDropzone";
+// Backend / BlockChain
+import { getVoucher, uploadIPFS } from "@/components/LazyMint";
+import { v4 as uuidv4 } from "uuid";
+import NFT from "../services/models/nft";
+import { useCurrency } from "@/context/currencyContext";
+const uuidParse = require("uuid").parse;
+const ethers = require("ethers");
 // Icons
 import CloudUploadRounded from "@material-ui/icons/CloudUploadRounded";
 import InfoRounded from "@material-ui/icons/InfoRounded";
+import CloseOutlined from "@material-ui/icons/CloseOutlined";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -93,12 +104,25 @@ const CustomSlider = withStyles({
   },
 })(Slider);
 
+type NftData = {
+  nft: Blob;
+  type: "single" | "multiple";
+  externalUrl: string;
+  title: string;
+  description: string;
+  royalty: number;
+  price: number;
+};
+
 export default function CreateNFT(props: any) {
   const classes = useStyles();
   const methods = useForm();
+  const router = useRouter();
+  const { currency } = useCurrency();
   const { enqueueSnackbar } = useSnackbar();
   const [type, setType] = React.useState<nftType>("single");
   const [value, setValue] = React.useState<number>(30);
+  const nftFile = methods.watch("nft");
 
   const handleNftTypeChange = (
     event: React.MouseEvent<HTMLElement>,
@@ -122,11 +146,65 @@ export default function CreateNFT(props: any) {
       setValue(100);
     }
   };
-  const onSubmit = (data) => {
-    const nftData = { ...data, type };
-    if (!nftData.nft) {
+
+  let convertGuidToInt = (uuid: string) => {
+    // parse accountId into Uint8Array[16] variable
+    let parsedUuid = uuidParse(uuid);
+    console.log(`uuid ${uuid} parsed successfully`);
+    // convert to integer - see answers to https://stackoverflow.com/q/39346517/2860309
+    let buffer = Buffer.from(parsedUuid);
+    console.log(`parsed uuid converted to buffer`);
+    let result = buffer.readUInt32BE(0);
+    console.log(`buffer converted to integer ${result} successfully`);
+    return result;
+  };
+
+  const onSubmit = async (data: NftData) => {
+    const nftData: NftData = { ...data, type };
+    if (!nftData.nft || nftFile == undefined) {
       enqueueSnackbar("No file uploaded!", { variant: "warning" });
+      return;
     }
+
+    // No errors - Handle NFT upload
+    let provider = new ethers.providers.Web3Provider(window.ethereum);
+    const url = await uploadIPFS(nftData.nft);
+    let signer = provider.getSigner();
+    let acc = window.ethereum.selectedAddress;
+
+    getVoucher(
+      convertGuidToInt(uuidv4()),
+      url,
+      parseInt(nftData.price.toString()),
+      signer,
+      currency
+    ).then(async function (result) {
+      const data = {
+        title: nftData.title,
+        description: nftData.description,
+        url: url,
+        price: nftData.price,
+        royalty: nftData.royalty,
+        voucher: result,
+      };
+      let currentDate = new Date();
+      data["createdOn"] = currentDate.toString();
+      data["createdBy"] = acc;
+      try {
+        let nft = new NFT();
+        let res = await nft.createNFT(data);
+        if (res) {
+          enqueueSnackbar("NFT Created successfully!", {
+            variant: "success",
+          });
+          router.push("/marketplace");
+        }
+      } catch (err) {
+        enqueueSnackbar("Error creating NFT", {
+          variant: "error",
+        });
+      }
+    });
   };
 
   return (
@@ -138,22 +216,46 @@ export default function CreateNFT(props: any) {
           </Typography>
           <Grid container>
             <Grid item xs={12} style={{ minHeight: 300 }}>
-              <ImageDropZone name="nft">
-                <CloudUploadRounded
-                  style={{ marginBottom: "12px", fontSize: "2rem" }}
-                />
-                <Typography variant="h6" gutterBottom>
-                  <b>
-                    {"Drag and Drop or "}
-                    <span className={classes.primary}>Browse</span>
-                  </b>
-                </Typography>
-                <Typography variant="subtitle1">
-                  {
-                    "Upload a JPEG, PNG, GIF, WEBP, MP4 or MP3 of maximum size 50 Mb."
-                  }
-                </Typography>
-              </ImageDropZone>
+              {!!nftFile ? (
+                <div style={{ position: "relative" }}>
+                  <IconButton
+                    size="small"
+                    style={{
+                      position: "absolute",
+                      top: 12,
+                      right: 12,
+                      zIndex: 999,
+                    }}
+                    onClick={() => methods.setValue("nft", undefined)}
+                  >
+                    <CloseOutlined style={{ color: "red" }} />
+                  </IconButton>
+                  <Image
+                    src={nftFile.preview}
+                    height={1}
+                    width={3}
+                    layout="responsive"
+                    objectFit={"contain"}
+                  />
+                </div>
+              ) : (
+                <ImageDropZone name="nft">
+                  <CloudUploadRounded
+                    style={{ marginBottom: "12px", fontSize: "2rem" }}
+                  />
+                  <Typography variant="h6" gutterBottom>
+                    <b>
+                      {"Drag and Drop or "}
+                      <span className={classes.primary}>Browse</span>
+                    </b>
+                  </Typography>
+                  <Typography variant="subtitle1">
+                    {
+                      "Upload a JPEG, PNG, GIF, WEBP, MP4 or MP3 of maximum size 50 Mb."
+                    }
+                  </Typography>
+                </ImageDropZone>
+              )}
             </Grid>
             <Grid item xs={12} className={classes.flexCenter}>
               <ToggleButtonGroup
@@ -301,7 +403,7 @@ export default function CreateNFT(props: any) {
                 </Tooltip>
               </div>
               <Controller
-                name="royalties"
+                name="royalty"
                 defaultValue=""
                 render={({ field: { onChange }, fieldState: { error } }) => (
                   <CustomSlider

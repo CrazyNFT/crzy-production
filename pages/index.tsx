@@ -144,7 +144,7 @@ import Container from "@material-ui/core/Container";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import ComingSoon from "components/Comingsoon/ComingSoon";
+import ComingSoon from "@/components/Comingsoon/ComingSoonNavItems";
 
 const useStyles = makeStyles((theme: Theme) => ({
   "@global": {
@@ -194,7 +194,8 @@ export default function SimpleContainer() {
   const classes = useStyles();
   return (
     <React.Fragment>
-      (<Container className={classes.pageContainer}>
+      (
+      <Container className={classes.pageContainer}>
         <Typography
           variant="h3"
           align="center"
@@ -203,9 +204,7 @@ export default function SimpleContainer() {
           CrazyNFT (Beta-1.0.0)
         </Typography>
         <Typography paragraph align="center" className={classes.paragraph}>
-          {
-            "This version of CrazyNFT runs on top of all EVM supported chains"
-          }
+          {"This version of CrazyNFT runs on top of all EVM supported chains"}
           <br />
           {"Make sure your wallet is connected to the right chain as selected "}
           {/* <b> Velas Testnet </b> */}

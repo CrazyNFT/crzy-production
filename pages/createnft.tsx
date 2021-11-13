@@ -19,10 +19,10 @@ import { Button, FormControlLabel, Paper, TextField } from "@material-ui/core";
 import { v4 as uuidv4 } from "uuid";
 import { useSnackbar } from "notistack";
 import NFT from "../services/models/nft";
-// import { withdrawTokens, availableToWithdraw } from "../components/LazyMint";
 import { useCurrency } from "@/context/currencyContext";
 const uuidParse = require("uuid").parse;
 const ethers = require("ethers");
+// import { withdrawTokens, availableToWithdraw } from "../components/LazyMint";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -154,37 +154,41 @@ export default function MarketPlace(props: any) {
     let provider = new ethers.providers.Web3Provider(window.ethereum);
     const url = await uploadIPFS(selectedFile);
     let signer = provider.getSigner();
-    let acc = window.ethereum.selectedAddress
+    let acc = window.ethereum.selectedAddress;
 
-    getVoucher(convertGuidToInt(uuidv4()), url, parseInt(price), signer, currency).then(
-      async function (result) {
-        const data = {
-          title: title,
-          description: description,
-          url: url,
-          price: price,
-          royalty: royalty,
-          voucher: result,
-        };
-        let currentDate = new Date();
-        data["createdOn"] = currentDate.toString();
-        data["createdBy"] = acc
-        try {
-          let nft = new NFT();
-          let res = await nft.createNFT(data);
-          if (res) {
-            enqueueSnackbar("NFT Created successfully!", {
-              variant: "success",
-            });
-            router.push("/marketplace");
-          }
-        } catch (err) {
-          enqueueSnackbar("Error creating NFT", {
-            variant: "error",
+    getVoucher(
+      convertGuidToInt(uuidv4()),
+      url,
+      parseInt(price),
+      signer,
+      currency
+    ).then(async function (result) {
+      const data = {
+        title: title,
+        description: description,
+        url: url,
+        price: price,
+        royalty: royalty,
+        voucher: result,
+      };
+      let currentDate = new Date();
+      data["createdOn"] = currentDate.toString();
+      data["createdBy"] = acc;
+      try {
+        let nft = new NFT();
+        let res = await nft.createNFT(data);
+        if (res) {
+          enqueueSnackbar("NFT Created successfully!", {
+            variant: "success",
           });
+          router.push("/marketplace");
         }
+      } catch (err) {
+        enqueueSnackbar("Error creating NFT", {
+          variant: "error",
+        });
       }
-    );
+    });
   };
 
   return (
@@ -234,6 +238,7 @@ export default function MarketPlace(props: any) {
             />
           </RadioGroup>
         </div>
+
         <Typography className={classes.formHeaders}>Upload file</Typography>
         <Typography className={classes.formParas}>
           Upload a JPEG, PNG, GIF, WEBP, MP4 or MP3. Max 50mb.
@@ -311,27 +316,7 @@ export default function MarketPlace(props: any) {
         >
           Create Item
         </Button>
-        {/* <Button
-          className={classes.createitembtn}
-          variant="outlined"
-          onClick={availableToWithdraw}
-        >
-          Available to Withdraw
-        </Button> */}
       </Container>
     </Container>
   );
 }
-
-const filterOptions = [
-  {
-    label: "Featured",
-    id: "filter-opt-featured",
-    value: "Featured",
-  },
-  {
-    label: "Relevance",
-    id: "filter-opt-relevance",
-    value: "Relevance",
-  },
-];
