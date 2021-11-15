@@ -9,13 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
-import IconButton from "@material-ui/core/IconButton";
 import Hidden from "@material-ui/core/Hidden";
-// Mui-icons
-import InstagramIcon from "@material-ui/icons/Instagram";
-import FaceBookIcon from "@material-ui/icons/Facebook";
-import LinkedInIcon from "@material-ui/icons/LinkedIn";
-import GithubIcon from "@material-ui/icons/GitHub";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -36,7 +30,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     logo: {
       [theme.breakpoints.up("sm")]: {
-        transform: "translateX(-28px)",
+        transform: "translateX(-20px)",
       },
     },
     footerTitle: {
@@ -48,7 +42,7 @@ const useStyles = makeStyles((theme: Theme) =>
       fontWeight: 400,
     },
     footerTopContainer: {
-      padding: theme.spacing(2),
+      padding: theme.spacing(1),
       justifyContent: "center",
       [theme.breakpoints.up("sm")]: {
         justifyContent: "space-between",
@@ -90,8 +84,8 @@ const useStyles = makeStyles((theme: Theme) =>
     copyrights: {
       marginTop: theme.spacing(5),
       padding: theme.spacing(1),
-      backgroundColor: theme.palette.primary.dark,
-      color: theme.palette.grey[300],
+      backgroundColor: theme.palette.primary.main,
+      color: theme.palette.grey[600],
     },
   })
 );
@@ -112,7 +106,7 @@ export default function Footer() {
 
   const SocialButton: React.FC<SocialButtonProps> = ({ icon, href }) => (
     <NextLink href={href} passHref>
-      <IconButton edge="end">{icon}</IconButton>
+      {icon}
     </NextLink>
   );
 
@@ -126,13 +120,15 @@ export default function Footer() {
       <Container maxWidth="lg">
         <Grid container className={classes.footerTopContainer}>
           <Grid item>
-            <Image
-              src="/logo.svg"
-              height={80}
-              width={160}
-              layout="intrinsic"
-              className={classes.logo}
-            />
+            <div style={{ padding: 12 }}>
+              <Image
+                src="/logo.svg"
+                height={50}
+                width={120}
+                layout="intrinsic"
+                className={classes.logo}
+              />
+            </div>
           </Grid>
           <Grid
             item
@@ -172,7 +168,11 @@ export default function Footer() {
               <ul>
                 {footer.description.map((item) => (
                   <li key={item} className={classes.listItem}>
-                    <Link href="#" className={classes.footerLink}>
+                    <Link
+                      href="#"
+                      className={classes.footerLink}
+                      style={{ color: "black" }}
+                    >
                       {item}
                     </Link>
                   </li>
@@ -185,8 +185,8 @@ export default function Footer() {
       <Box className={classes.copyrights}>
         <Typography variant="body2" color="inherit" align="center">
           {"Copyright © "}
-          <Link color="inherit" href="https://www.crazynft.tech/">
-            CrazyNFT
+          <Link color="inherit" href="https://www.google.com">
+            Company
           </Link>{" "}
           {new Date().getFullYear()}
           {"."}
@@ -197,16 +197,56 @@ export default function Footer() {
 }
 
 const socials: SocialButtonProps[] = [
-  { icon: <FaceBookIcon />, href: "#", key: "ajska" },
-  { icon: <LinkedInIcon />, href: "#", key: " laosma" },
-  { icon: <InstagramIcon />, href: "#", key: "lapsla" },
-  { icon: <GithubIcon />, href: "#", key: "tayhs" },
+  {
+    icon: (
+      <img
+        height={32}
+        width={32}
+        src="https://assets.brandfetch.io/5988c971065c497.svg"
+      />
+    ),
+    href: "#",
+    key: "ajska",
+  },
+  {
+    icon: (
+      <img
+        height={32}
+        width={32}
+        src="https://assets.brandfetch.io/77dac496b3224fc.svg"
+      />
+    ),
+    href: "#",
+    key: " laosma",
+  },
+  {
+    icon: (
+      <img
+        height={32}
+        width={32}
+        src="https://assets.brandfetch.io/762c2bd32d6f43e.svg"
+      />
+    ),
+    href: "#",
+    key: "lapsla",
+  },
+  {
+    icon: (
+      <img
+        height={32}
+        width={32}
+        src="https://assets.brandfetch.io/9b566889088440e.svg"
+      />
+    ),
+    href: "#",
+    key: "tayhs",
+  },
 ];
 
 const footers: FooterLinks[] = [
   {
-    title: "CrazyNFT",
-    description: ["NFT Blog", "FAQs", "Chat with us", "Create NFTs"],
+    title: "Company",
+    description: ["Blog", "FAQs", "Chat with us", "Create"],
   },
   {
     title: "NFTs",

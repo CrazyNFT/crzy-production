@@ -23,7 +23,7 @@ export default function CrzyNFT(props: AppProps) {
   return (
     <React.Fragment>
       <Head>
-        <title>CrazyNFT</title>
+        <title>NFT Marketplace</title>
         <meta
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width"

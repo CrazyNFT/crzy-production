@@ -6,7 +6,7 @@ import Link from "@/components/Link";
 
 const menus = [
   {
-    name: "CrazyHOME",
+    name: "Home",
     link: "/comingsoon",
   },
   {

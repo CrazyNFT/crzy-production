@@ -69,7 +69,6 @@ export default function CustomizedSelect({
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     if (!!setCurrency) {
       setCurrency(currencyOptions.find((c) => c.value === event.target.value));
-      // setSelectVal(event.target.value as string);
     } else {
       setSelectVal(event.target.value as string);
     }

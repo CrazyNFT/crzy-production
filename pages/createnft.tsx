@@ -1,174 +1,185 @@
 import React from "react";
+import Image from "next/image";
 import { useRouter } from "next/router";
+import { useForm, FormProvider, Controller } from "react-hook-form";
+import { useSnackbar } from "notistack";
 import {
   makeStyles,
   createStyles,
-  withStyles,
   Theme,
   alpha,
+  withStyles,
 } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
 import Container from "@material-ui/core/Container";
-import LinearProgress from "@material-ui/core/LinearProgress";
+import Slider from "@material-ui/core/Slider";
+import Typography from "@material-ui/core/Typography";
+import Input from "@material-ui/core/Input";
+import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+import Tooltip from "@material-ui/core/Tooltip";
+import IconButton from "@material-ui/core/IconButton";
 import InputAdornment from "@material-ui/core/InputAdornment";
-import { Input } from "@material-ui/core";
+import ToggleButton from "@material-ui/lab/ToggleButton";
+import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
+import Alert from "@material-ui/lab/Alert";
+import AlertTitle from "@material-ui/lab/AlertTitle";
+import ImageDropZone from "@/components/ImageDropzone";
+// Backend / BlockChain
 import { getVoucher, uploadIPFS } from "@/components/LazyMint";
-import { Button, FormControlLabel, Paper, TextField } from "@material-ui/core";
 import { v4 as uuidv4 } from "uuid";
-import { useSnackbar } from "notistack";
 import NFT from "../services/models/nft";
 import { useCurrency } from "@/context/currencyContext";
 const uuidParse = require("uuid").parse;
 const ethers = require("ethers");
-// import { withdrawTokens, availableToWithdraw } from "../components/LazyMint";
+// Icons
+import CloudUploadRounded from "@material-ui/icons/CloudUploadRounded";
+import InfoRounded from "@material-ui/icons/InfoRounded";
+import CloseOutlined from "@material-ui/icons/CloseOutlined";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    createitembtn: {
-      // background: "rgb(0,192,182)",
-      marginTop: 40,
-      marginLeft: 5,
-      background:
-        "linear-gradient(90deg, rgba(0,192,182,1) 0%, rgba(0,80,80,1) 100%)",
-      padding: 8,
-      flexGrow: 1,
+    title: {
+      fontWeight: 800,
+      marginBottom: 32,
+      textAlign: "center",
     },
-    spaceBetween: {
-      justifyContent: "space-between",
-    },
-    justifyCenter: {
-      justifyContent: "center",
-    },
-    select: {
-      display: "flex",
-      alignItems: "center",
-      backgroundColor: alpha(theme.palette.primary.main, 0.1),
-      padding: theme.spacing(0, 1, 0, 2),
-      borderRadius: "8px",
-    },
-    selectlabel: {
-      fontWeight: 500,
-      marginBottom: 2,
+    primary: {
       color: theme.palette.primary.main,
     },
-    connectWalletButton: {
-      border: "0px",
-      background:
-        "linear-gradient(90deg, rgba(0,192,182,1) 0%, rgba(0,80,80,1) 100%)",
-      padding: 18,
-      flexGrow: 1,
+    flexCenter: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      flexDirection: "column",
     },
-    progressDiv: {
+    flexSpaceBetween: {
       display: "flex",
       flexDirection: "row",
-      flexGrow: 1,
-      flexWrap: "nowrap",
-      alignContent: "center",
-      justifyContent: "center",
-      alignItems: "center",
+      width: "100%",
+      justifyContent: "space-between",
     },
-    formHeaders: {
-      fontWeight: 800,
-      fontColor: "#004F4F !important",
-      marginTop: 30,
-      marginBottom: 20,
-      fontSize: "20px",
-    },
-    formMainHeader: {
-      fontWeight: 800,
-      fontColor: "#004F4F !important",
-      marginTop: 30,
-      marginBottom: 20,
-      fontSize: 50,
-    },
-    formParas: {
-      fontWeight: 700,
-      fontSize: "15px",
-      marginBottom: 30,
+    btnRoot: {
+      maxHeight: 54,
+      margin: "24px auto",
+      "& .MuiToggleButton-root.Mui-selected": {
+        backgroundColor: alpha(theme.palette.primary.main, 0.2),
+        fontWeight: 800,
+        fontSize: 18,
+        border: "2px solid",
+      },
     },
   })
 );
-const BorderLinearProgress = withStyles((theme) => ({
-  root: {
-    height: 30,
-    flex: 1,
-    marginLeft: 10,
-    marginRight: 10,
-    borderRadius: "100px",
-    boxShadow: "inset 0px 4px 12px 4px rgba(0, 0, 0, 0.25)",
-  },
-  colorPrimary: {
-    backgroundColor:
-      theme.palette.grey[theme.palette.type === "light" ? "#006F6F" : 700],
-  },
-  bar: {
-    borderRadius: "100px",
-    backgroundColor: "#00C4BA",
-    // margin:4,
-  },
-}))(LinearProgress);
 
-let convertGuidToInt = (uuid: string) => {
-  // parse accountId into Uint8Array[16] variable
-  let parsedUuid = uuidParse(uuid);
-  console.log(`uuid ${uuid} parsed successfully`);
-  // convert to integer - see answers to https://stackoverflow.com/q/39346517/2860309
-  let buffer = Buffer.from(parsedUuid);
-  console.log(`parsed uuid converted to buffer`);
-  let result = buffer.readUInt32BE(0);
-  console.log(`buffer converted to integer ${result} successfully`);
-  return result;
+type nftType = "single" | "multiple";
+
+const CustomSlider = withStyles({
+  root: {
+    color: "#000000",
+    height: 8,
+  },
+  thumb: {
+    height: 24,
+    width: 24,
+    backgroundColor: "#fff",
+    border: "2px solid currentColor",
+    marginTop: -8,
+    marginLeft: -12,
+    "&:focus, &:hover, &$active": {
+      boxShadow: "inherit",
+    },
+  },
+  active: {},
+  valueLabel: {
+    left: "calc(-50% + 4px)",
+  },
+  track: {
+    height: 8,
+    borderRadius: 4,
+  },
+  rail: {
+    height: 8,
+    borderRadius: 4,
+  },
+})(Slider);
+
+type NftData = {
+  nft: Blob;
+  type: "single" | "multiple";
+  externalUrl: string;
+  title: string;
+  description: string;
+  royalty: number;
+  price: number;
 };
 
-export default function MarketPlace(props: any) {
+export default function CreateNFT(props: any) {
   const classes = useStyles();
-  const { enqueueSnackbar } = useSnackbar();
+  const methods = useForm();
   const router = useRouter();
-  const [selectedType, setSelectedType] = React.useState("single");
-  const [title, setTitle] = React.useState("");
-  const [description, setDescription] = React.useState("");
-  const [externalLink, setExternalLink] = React.useState("");
-  const [price, setPrice] = React.useState("");
-  const [royalty, setRoyalty] = React.useState(0);
-  const [selectedFile, setSelectedFile] = React.useState();
-  const [isFilePicked, setIsFilePicked] = React.useState(false);
   const { currency } = useCurrency();
-  const IncrementRoyalty = (e: any) => {
-    if (royalty <= 90) {
-      setRoyalty(royalty + 10);
-    }
-  };
-  const DecrementRoyalty = (e: any) => {
-    if (royalty >= 10) {
-      setRoyalty(royalty - 10);
-    }
-  };
-  const handleFileUpload = (e: any) => {
-    setSelectedFile(e.target.files[0]);
-    setIsFilePicked(true);
+  const { enqueueSnackbar } = useSnackbar();
+  const [type, setType] = React.useState<nftType>("single");
+  const [value, setValue] = React.useState<number>(30);
+  const nftFile = methods.watch("nft");
+
+  const handleNftTypeChange = (
+    event: React.MouseEvent<HTMLElement>,
+    newType: nftType
+  ) => {
+    setType(newType);
   };
 
-  const handleSubmission = async () => {
+  const handleSliderChange = (event: any, newValue: number) => {
+    setValue(newValue);
+  };
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(event.target.value === "" ? 0 : Number(event.target.value));
+  };
+
+  const handleBlur = () => {
+    if (value < 0) {
+      setValue(0);
+    } else if (value > 100) {
+      setValue(100);
+    }
+  };
+
+  let convertGuidToInt = (uuid: string) => {
+    let parsedUuid = uuidParse(uuid);
+    let buffer = Buffer.from(parsedUuid);
+    let result = buffer.readUInt32BE(0);
+    return result;
+  };
+
+  const onSubmit = async (data: NftData) => {
+    const nftData: NftData = { ...data, type };
+    if (!nftData.nft || nftFile == undefined) {
+      enqueueSnackbar("No file uploaded!", { variant: "warning" });
+      return;
+    }
+
+    // No errors - Handle NFT upload
     let provider = new ethers.providers.Web3Provider(window.ethereum);
-    const url = await uploadIPFS(selectedFile);
+    const url = await uploadIPFS(nftData.nft);
     let signer = provider.getSigner();
     let acc = window.ethereum.selectedAddress;
 
     getVoucher(
       convertGuidToInt(uuidv4()),
       url,
-      parseInt(price),
+      parseInt(nftData.price.toString()),
       signer,
       currency
     ).then(async function (result) {
       const data = {
-        title: title,
-        description: description,
+        title: nftData.title,
+        description: nftData.description,
         url: url,
-        price: price,
-        royalty: royalty,
+        price: nftData.price,
+        royalty: nftData.royalty,
         voucher: result,
       };
       let currentDate = new Date();
@@ -192,131 +203,245 @@ export default function MarketPlace(props: any) {
   };
 
   return (
-    <Container>
-      <Container>
-        <Typography className={classes.formMainHeader}>
-          Create a new item
-        </Typography>
-        <Typography className={classes.formParas}>
-          Choose “Single” if you want your collectible to be one of a kind or
-          “Multiple” if you want to sell one collectible multiple times
-        </Typography>
-
-        <div>
-          <RadioGroup
-            row
-            aria-label="position"
-            name="position"
-            defaultValue="top"
+    <FormProvider {...methods}>
+      <form onSubmit={methods.handleSubmit(onSubmit)}>
+        <Container maxWidth={"md"}>
+          <Typography variant="h3" className={classes.title}>
+            Create an awesome NFT!
+          </Typography>
+          <Grid container>
+            <Grid item xs={12} style={{ minHeight: 300 }}>
+              {!!nftFile ? (
+                <div style={{ position: "relative" }}>
+                  <IconButton
+                    size="small"
+                    style={{
+                      position: "absolute",
+                      top: 12,
+                      right: 12,
+                      zIndex: 999,
+                    }}
+                    onClick={() => methods.setValue("nft", undefined)}
+                  >
+                    <CloseOutlined style={{ color: "red" }} />
+                  </IconButton>
+                  <Image
+                    src={nftFile.preview}
+                    height={1}
+                    width={3}
+                    layout="responsive"
+                    objectFit={"contain"}
+                  />
+                </div>
+              ) : (
+                <ImageDropZone name="nft">
+                  <CloudUploadRounded
+                    style={{ marginBottom: "12px", fontSize: "2rem" }}
+                  />
+                  <Typography variant="h6" gutterBottom>
+                    <b>
+                      {"Drag and Drop or "}
+                      <span className={classes.primary}>Browse</span>
+                    </b>
+                  </Typography>
+                  <Typography variant="subtitle1">
+                    {
+                      "Upload a JPEG, PNG, GIF, WEBP, MP4 or MP3 of maximum size 50 Mb."
+                    }
+                  </Typography>
+                </ImageDropZone>
+              )}
+            </Grid>
+            <Grid item xs={12} className={classes.flexCenter}>
+              <ToggleButtonGroup
+                value={type}
+                exclusive
+                onChange={handleNftTypeChange}
+                className={classes.btnRoot}
+              >
+                <ToggleButton value="single">{"Single"}</ToggleButton>
+                <ToggleButton value="multiple">{"Multiple"}</ToggleButton>
+              </ToggleButtonGroup>
+              <Alert severity="info">
+                <AlertTitle>
+                  <b>Choosing your NFT type</b>
+                </AlertTitle>
+                <Typography variant="body2">
+                  Choose <strong>Single</strong> if you want your collectible to
+                  be one of a kind or <strong>Multiple</strong> if you want to
+                  sell one collectible multiple times
+                </Typography>
+              </Alert>
+            </Grid>
+          </Grid>
+          <Grid
+            container
+            spacing={4}
+            style={{ margin: "24px 0px", transform: "translateX(-16px)" }}
           >
-            <FormControlLabel
-              value="bottom"
-              control={
-                <Radio
-                  checked={selectedType === "single"}
-                  onChange={(e) => setSelectedType(e.target.value)}
-                  value="single"
-                  name="radio-button-demo"
+            <Grid item xs={6}>
+              <Controller
+                name="title"
+                defaultValue=""
+                control={methods.control}
+                rules={{
+                  required: "Cool title required",
+                }}
+                render={({
+                  field: { ref, ...rest },
+                  fieldState: { error },
+                }) => (
+                  <TextField
+                    fullWidth
+                    label="Title"
+                    variant="outlined"
+                    placeholder="What do you call your collectable?"
+                    error={!!error}
+                    helperText={!!error && error.message}
+                    {...rest}
+                  />
+                )}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <Controller
+                name="externalURL"
+                defaultValue=""
+                rules={{
+                  pattern: {
+                    value:
+                      /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/gi,
+                    message: "Please enter a valid URL",
+                  },
+                }}
+                render={({
+                  field: { ref, ...rest },
+                  fieldState: { error },
+                }) => (
+                  <TextField
+                    fullWidth
+                    variant="outlined"
+                    label="External Link"
+                    placeholder="Paste URL here"
+                    error={!!error}
+                    helperText={!!error && error.message}
+                    {...rest}
+                    InputProps={{
+                      endAdornment: (
+                        <Tooltip title="Suggestions/Info">
+                          <InputAdornment position="end">
+                            <InfoRounded style={{ color: "lightblue" }} />
+                          </InputAdornment>
+                        </Tooltip>
+                      ),
+                    }}
+                  />
+                )}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Controller
+                defaultValue=""
+                name="description"
+                rules={{
+                  required: "Breif description required",
+                }}
+                render={({
+                  field: { ref, ...rest },
+                  fieldState: { error },
+                }) => (
+                  <TextField
+                    fullWidth
+                    multiline
+                    rows={4}
+                    label="Describe your collectible"
+                    variant="filled"
+                    placeholder="We'd love to know what inspired you, when you crafted it and more..."
+                    error={!!error}
+                    helperText={!!error && error.message}
+                    {...rest}
+                  />
+                )}
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <Controller
+                name="price"
+                defaultValue=""
+                rules={{
+                  required: "Price required",
+                }}
+                render={({
+                  field: { ref, ...rest },
+                  fieldState: { error },
+                }) => (
+                  <TextField
+                    fullWidth
+                    label="Price"
+                    variant="outlined"
+                    placeholder="How much?"
+                    error={!!error}
+                    helperText={!!error && error.message}
+                    inputProps={{
+                      type: "number",
+                    }}
+                    {...rest}
+                  />
+                )}
+              />
+            </Grid>
+            <Grid item xs={6} className={classes.flexCenter}>
+              <div className={classes.flexSpaceBetween}>
+                <Typography>Royalties</Typography>
+                <Tooltip title="Suggestions/Info">
+                  <InfoRounded style={{ color: "lightblue" }} />
+                </Tooltip>
+              </div>
+              <Controller
+                name="royalty"
+                defaultValue=""
+                render={({ field: { onChange }, fieldState: { error } }) => (
+                  <CustomSlider
+                    value={typeof value === "number" ? value : 0}
+                    onChange={(e, value) => {
+                      const val: number = Number(value);
+                      handleSliderChange(e, val);
+                      onChange(val);
+                    }}
+                    aria-labelledby="input-slider"
+                  />
+                )}
+              />
+            </Grid>
+            <Grid item xs={2} className={classes.flexCenter}>
+              <div className={classes.flexSpaceBetween}>
+                <Input
+                  value={value}
+                  margin="dense"
+                  onChange={handleInputChange}
+                  onBlur={handleBlur}
+                  inputProps={{
+                    type: "number",
+                    "aria-labelledby": "input-slider",
+                  }}
                 />
-              }
-              label="single"
-              labelPlacement="bottom"
-            />
-
-            <FormControlLabel
-              value="bottom"
-              control={
-                <Radio
-                  checked={selectedType === "multiple"}
-                  onChange={(e) => setSelectedType(e.target.value)}
-                  value="multiple"
-                  name="radio-button-demo"
-                />
-              }
-              label="multiple"
-              labelPlacement="bottom"
-            />
-          </RadioGroup>
-        </div>
-
-        <Typography className={classes.formHeaders}>Upload file</Typography>
-        <Typography className={classes.formParas}>
-          Upload a JPEG, PNG, GIF, WEBP, MP4 or MP3. Max 50mb.
-        </Typography>
-        <Paper>
-          <Input type="file" name="file" onChange={handleFileUpload}></Input>
-        </Paper>
-        <Typography className={classes.formHeaders}>Title</Typography>
-        <TextField
-          id="outlined-basic"
-          fullWidth
-          onChange={(e) => setTitle(e.target.value)}
-          label="Enter title"
-          variant="outlined"
-        />
-
-        <Typography className={classes.formHeaders}>Description</Typography>
-        <TextField
-          id="outlined-basic"
-          multiline
-          fullWidth
-          onChange={(e) => setDescription(e.target.value)}
-          label="Enter a description of minimum 50 words of your item."
-          variant="outlined"
-        />
-        <Typography className={classes.formHeaders}>External link</Typography>
-
-        <Typography className={classes.formParas}>
-          {`CrazyNFT will include a link to this URL on this item's detail page,
-          so that users can click to learn more about it. You are welcome to
-          link to your own webpage with more details.`}
-        </Typography>
-        <TextField
-          id="outlined-basic"
-          fullWidth
-          label="Paste URL"
-          onChange={(e) => setExternalLink(e.target.value)}
-          variant="outlined"
-        />
-
-        <Typography className={classes.formHeaders}>Price</Typography>
-        <TextField
-          id="outlined-basic"
-          fullWidth
-          onChange={(e) => setPrice(e.target.value)}
-          InputProps={{
-            endAdornment: <InputAdornment position="end">SOL</InputAdornment>,
-          }}
-          label="Enter price for a single item"
-          variant="outlined"
-        />
-
-        <Typography className={classes.formHeaders}>Royalties</Typography>
-
-        <Typography className={classes.formParas}>
-          The more the royalty percentage, higher are the chances of your item
-          to be placed on the top of the marketplace list.
-        </Typography>
-        <div className={classes.progressDiv}>
-          <Button value={10} onClick={DecrementRoyalty} variant="outlined">
-            {"-"}
-          </Button>
-          <BorderLinearProgress
-            variant="determinate"
-            value={royalty}
-          ></BorderLinearProgress>
-          <Button value={10} onClick={IncrementRoyalty} variant="outlined">
-            {"+"}
-          </Button>
-        </div>
-        <Button
-          className={classes.createitembtn}
-          variant="outlined"
-          onClick={handleSubmission}
-        >
-          Create Item
-        </Button>
-      </Container>
-    </Container>
+              </div>
+            </Grid>
+            <Grid item xs={12}>
+              <Button
+                variant="contained"
+                color="primary"
+                fullWidth
+                type="submit"
+              >
+                <Typography variant="h6">
+                  <b>CREATE MY AWESOME COLLECTIBLE</b>
+                </Typography>
+              </Button>
+            </Grid>
+          </Grid>
+        </Container>
+      </form>
+    </FormProvider>
   );
 }

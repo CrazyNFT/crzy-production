@@ -54,9 +54,14 @@ const useStyles = makeStyles((theme: Theme) =>
     cardRoot: {
       maxWidth: 345,
       minHeight: 400,
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "space-between",
     },
     img: {
       height: 220,
+      alignSelf: "flex-start",
+      width: "100%",
     },
     action: {
       backgroundColor: "#5E5E5E",
@@ -99,6 +104,12 @@ const useStyles = makeStyles((theme: Theme) =>
       marginRight: 4,
       fontSize: 16,
       color: "#FF7F7F",
+    },
+    actionArea: {
+      flexGrow: 1,
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "flex-start",
     },
   })
 );
@@ -186,9 +197,15 @@ export default function ImgMediaCard({ nft }) {
   return (
     <div>
       <Card className={classes.cardRoot}>
-        <CardActionArea onClick={handleClickOpen}>
-          <CardMedia image={nft.voucher.uri} className={classes.img} />
-          <CardContent>
+        <CardActionArea
+          onClick={handleClickOpen}
+          className={classes.actionArea}
+        >
+          <CardMedia
+            image={"https://picsum.photos/200/300"}
+            className={classes.img}
+          />
+          <CardContent style={{ width: "100%" }}>
             <Typography gutterBottom variant="h5" component="h2">
               <strong>{nft.title}</strong>
             </Typography>
@@ -234,7 +251,7 @@ export default function ImgMediaCard({ nft }) {
             <Grid item xs={12} sm={12} md={6} style={{ overflow: "hidden" }}>
               <Grid item>
                 <img
-                  src={nft.voucher.uri}
+                  src={"https://picsum.photos/200/300"}
                   alt={"nft-preview"}
                   className={classes.imageFull}
                   height="inherit"

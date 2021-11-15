@@ -75,9 +75,9 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: theme.spacing("auto", 2),
       textDecoration: "none",
       color: theme.palette.text.secondary,
+      fontWeight: 500,
       "&:hover": {
-        color: theme.palette.primary.dark,
-        fontWeight: 500,
+        fontWeight: 700,
       },
     },
     search: {
@@ -145,8 +145,6 @@ export default function Header() {
   const classes = useStyles();
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const { currency, setCurrency } = useCurrency();
-
-  console.log(currency);
 
   // Link data
   const PageLinks: PageLinkProps[] = [
@@ -258,13 +256,15 @@ export default function Header() {
           >
             <MenuIcon />
           </IconButton>
-          <Image
-            src="/logo.svg"
-            height={80}
-            width={160}
-            layout="intrinsic"
-            priority
-          />
+          <div style={{ padding: 12 }}>
+            <Image
+              src="/logo.svg"
+              height={50}
+              width={120}
+              layout="fixed"
+              priority
+            />
+          </div>
           <Hidden smDown implementation="css">
             <div>
               {PageLinks.map((link) => (
