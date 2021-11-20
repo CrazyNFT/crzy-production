@@ -1,0 +1,28 @@
+{
+  "hosting": {
+    "public": "out",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "/marketplace",
+        "destination": "/marketplace.html"
+      },
+      {
+        "source": "/comingsoon",
+        "destination": "/comingsoon.html"
+      },
+      {
+        "source": "/create",
+        "destination": "/create.html"
+      },
+      {
+        "source": "/createnft",
+        "destination": "/createnft.html"
+      }
+    ]
+  }
+}
