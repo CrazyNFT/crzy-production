@@ -53,6 +53,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     cardRoot: {
       maxWidth: 345,
+      minHeight: 400,
     },
     img: {
       height: 220,
@@ -159,30 +160,27 @@ export default function ImgMediaCard({ nft }) {
   };
 
   const handleBuy = async () => {
-
-    try{
+    try {
       const res = await redeemNFT(nft.voucher, currency);
       const { id: NftID, ...NftData } = nft;
-    // Delete sold NFT
-    const deleteRes = await db.collection("CrazyNFT").doc(NftID).delete();
-    // Add Sold NFt to SoldNFT collection
-    const addRes = await db.collection("SoldNFT").add(NftData);
+      // Delete sold NFT
+      const deleteRes = await db.collection("CrazyNFT").doc(NftID).delete();
+      // Add Sold NFt to SoldNFT collection
+      const addRes = await db.collection("SoldNFT").add(NftData);
 
-    if (!!addRes) {
-      enqueueSnackbar("Success! NFT Purchased", { variant: "success" });
-      setOpen(false);
-    } else {
+      if (!!addRes) {
+        enqueueSnackbar("Success! NFT Purchased", { variant: "success" });
+        setOpen(false);
+      } else {
+        enqueueSnackbar("Oop! Couldn't buy NFT at the moment", {
+          variant: "error",
+        });
+      }
+    } catch (err) {
       enqueueSnackbar("Oop! Couldn't buy NFT at the moment", {
         variant: "error",
       });
     }
-    } catch(err){
-      enqueueSnackbar("Oop! Couldn't buy NFT at the moment", {
-        variant: "error",
-      });
-    }
-    
-    
   };
 
   return (
@@ -207,7 +205,9 @@ export default function ImgMediaCard({ nft }) {
                 src={nft.ownerIcon}
               />
               <Typography variant="body2" color="textSecondary" component="div">
-                {nft.createdBy? nft.createdBy.slice(0, 5) + '...' + nft.createdBy.slice(-4): ''}
+                {nft.createdBy
+                  ? nft.createdBy.slice(0, 5) + "..." + nft.createdBy.slice(-4)
+                  : ""}
               </Typography>
             </div>
           </CardContent>
@@ -304,11 +304,6 @@ export default function ImgMediaCard({ nft }) {
                 </Typography>
               </Grid>
               <Grid item container spacing={2}>
-                {/* <Grid item xs={12} sm={6}>
-                  <Button variant="outlined" color="primary" fullWidth>
-                    CONNECT WALLET
-                  </Button>
-                </Grid> */}
                 <Grid item xs={12} sm={6}>
                   <Button
                     variant="contained"

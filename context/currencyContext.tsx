@@ -72,6 +72,14 @@ export const currencyOptions: Array<Currency> = [
     rpc_url: "https://rpc-mumbai.maticvigil.com/",
   },
   {
+    label: "METIS",
+    id: "chain-metis",
+    value: "tMETIS",
+    contract_address: "0x3E73035119A1ca6efAA3Da02fc06DBCb5d6e9850",
+    chain_id: "588",
+    rpc_url: "https://stardust.metis.io/?owner=588",
+  },
+  {
     label: "NEAR",
     id: "chain-near",
     value: "NEAR",
@@ -95,6 +103,7 @@ export const currencyOptions: Array<Currency> = [
     chain_id: "111",
     rpc_url: "https://evmexplorer.testnet.velas.com/rpc",
   },  
+  
 ];
 
 const CurrencyContext = createContext<CurrencyContext>({
