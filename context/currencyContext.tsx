@@ -64,6 +64,22 @@ export const currencyOptions: Array<Currency> = [
     rpc_url: "https://data-seed-prebsc-1-s1.binance.org:8545",
   },
   {
+    label: "CELO",
+    id: "chain-celo",
+    value: "CELO",
+    contract_address: "0xE4D5f5A6849f3801a0E6E62BFCB162cb9294eb53",
+    chain_id: "44787",
+    rpc_url: "https://alfajores-forno.celo-testnet.org",
+  },
+  {
+    label: "CLOVER",
+    id: "chain-clover",
+    value: "CLOVER",
+    contract_address: "0x3E73035119A1ca6efAA3Da02fc06DBCb5d6e9850",
+    chain_id: "1023",
+    rpc_url: "https://rpc.clover.finance",
+  },
+  {
     label: "MATIC",
     id: "chain-matic",
     value: "MATIC",
