@@ -173,6 +173,7 @@ export default function CreateNFT(props: any) {
       provider = new ethers.providers.Web3Provider(window.ethereum);
       url = await uploadIPFS(nftData.nft);
       signer = provider.getSigner();
+      console.log(signer);
       acc = window.ethereum.selectedAddress;
     } catch (e) {
       console.log(e);
