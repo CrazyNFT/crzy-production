@@ -163,11 +163,20 @@ export default function CreateNFT(props: any) {
       return;
     }
 
-    // No errors - Handle NFT upload
-    let provider = new ethers.providers.Web3Provider(window.ethereum);
-    const url = await uploadIPFS(nftData.nft);
-    let signer = provider.getSigner();
-    let acc = window.ethereum.selectedAddress;
+    let provider = null;
+    let url = null;
+    let signer = null;
+    let acc = null;
+
+    try {
+      // No errors - Handle NFT upload
+      provider = new ethers.providers.Web3Provider(window.ethereum);
+      url = await uploadIPFS(nftData.nft);
+      signer = provider.getSigner();
+      acc = window.ethereum.selectedAddress;
+    } catch (e) {
+      console.log(e);
+    }
 
     getVoucher(
       convertGuidToInt(uuidv4()),
