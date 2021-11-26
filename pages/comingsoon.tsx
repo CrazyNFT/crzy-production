@@ -148,7 +148,7 @@ export default function ComingSoon() {
   return (
     <div className={styles.root}>
       <div className={styles.sidebar}>
-        <img className={styles.logo} src="crzyLogo.png"></img>
+        <img className={styles.logo} src="/crzyLogo.png"></img>
         <ButtonGroup
           orientation="vertical"
           aria-label="vertical contained primary button group"

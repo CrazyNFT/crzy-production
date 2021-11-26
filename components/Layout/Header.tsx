@@ -146,8 +146,6 @@ export default function Header() {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const { currency, setCurrency } = useCurrency();
 
-  console.log(currency);
-
   // Link data
   const PageLinks: PageLinkProps[] = [
     {

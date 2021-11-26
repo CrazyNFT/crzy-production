@@ -4,7 +4,7 @@ import Web3Modal from "web3modal";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import Button from "@material-ui/core/Button";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
-import { profile } from '../../services/profile'
+import { profile } from "../../services/profile";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -59,11 +59,10 @@ export default function WalletModal() {
       const accounts = await WebThree.eth.getAccounts();
 
       if (accounts[0]) {
-        setWalletConnected(true)
-        let data = await profile.init(accounts[0])
+        setWalletConnected(true);
+        let data = await profile.init(accounts[0]);
         if (data.email && data.emailVerified) {
-          setUserVerified(true)
-          console.log('User Data ', data)
+          setUserVerified(true);
         }
       }
     } catch (error) {
@@ -72,13 +71,13 @@ export default function WalletModal() {
   };
 
   const verifyUser = async () => {
-    try{
-      let res = await profile.gmail_login()
-      if(res) setUserVerified(true)
-    } catch(err){
-      alert('Profile Verification Error! '+err)
+    try {
+      let res = await profile.gmail_login();
+      if (res) setUserVerified(true);
+    } catch (err) {
+      alert("Profile Verification Error! " + err);
     }
-  }
+  };
 
   return (
     <>
@@ -89,11 +88,12 @@ export default function WalletModal() {
         onClick={showWeb3Modal}
         size="small"
       >
-        {walletConnected ? `WALLET CONNECTED ${userVerified ? '( VERIFIED )' : ''}` : 'CONNECT TO WALLET'}
+        {walletConnected
+          ? `WALLET CONNECTED ${userVerified ? "( VERIFIED )" : ""}`
+          : "CONNECT TO WALLET"}
       </Button>
-      {
-        walletConnected && !userVerified?(
-          <Button
+      {walletConnected && !userVerified ? (
+        <Button
           variant="contained"
           color="primary"
           className={classes.btnRoot}
@@ -102,8 +102,7 @@ export default function WalletModal() {
         >
           VERIFY
         </Button>
-        ): null
-      }
+      ) : null}
     </>
   );
 }
